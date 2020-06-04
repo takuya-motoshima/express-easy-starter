@@ -141,7 +141,7 @@ The application uses ES6, the template engine is Handlebars, and the ORM is Sequ
 ### Model class
 
 Explains how to connect DB and how to use the model.  
-For information on other model methods, see "[https://sequelize.org/](Sequelize | Sequelize ORM)".
+For information on other model methods, see "[Sequelize | Sequelize ORM](https://sequelize.org/)".
 
 1. Add the database connection information to "config/database.js".
 
