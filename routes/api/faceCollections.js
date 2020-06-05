@@ -14,4 +14,9 @@ router.delete('/:id', async (req, res, next) => {
   res.json(true);
 });
 
+router.post('/', async (req, res, next) => {
+  const result = await client.addCollection(req.body.id);
+  res.json(result);
+});
+
 export default router;

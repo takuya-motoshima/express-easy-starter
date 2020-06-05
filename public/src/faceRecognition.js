@@ -15,13 +15,14 @@ function setupTable() {
     await dt.deleteRow($row);
   });
   return new DataTable($table, {
-    columnDefs: [ { targets:1, orderable: false, searchable: false } ],
+    columnDefs: [ { targets:2, orderable: false, searchable: false } ],
     buttons: [{
       text: 'Add collection',
-      className: 'btn-primary',
-      action: () => {
+      action: async () => {
         const id = prompt('Please enter a collection ID.', '');
-        console.log(id);
+        const result = await faceCollectionsApi.post({ id });
+        alert('Added new collection');
+        dt.addRow($(template(result)));
       }
     }],
     order: [[ 1, 'asc' ] ]
@@ -31,11 +32,11 @@ function setupTable() {
 async function loadData() {
   const collections = await faceCollectionsApi.query();
   for (let collection of collections) {
-    dt.addRow($(teamplate(collection)));
+    dt.addRow($(template(collection)));
   }
 }
 
-const teamplate = Template.create($('#teamplate').html());
+const template = Template.create($('#template').html());
 const dt = setupTable();
 const faceCollectionsApi = new FaceCollectionsApi();
 loadData();

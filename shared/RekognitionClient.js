@@ -95,7 +95,10 @@ export default class {
     const data = await new Promise((resolve, reject) => {
       this.client.createCollection({ CollectionId: collectionId }, (error, data) => error ? reject(error) : resolve(data));
     });
-    console.log('data=', data.collectionId);
+    if (data.StatusCode !== 200) {
+      throw new Error('Collection could not be created');
+    }
+    return { id: collectionId, faceModelVersion: data.FaceModelVersion };
   }
 
   async getCollections() {
@@ -107,9 +110,12 @@ export default class {
   }
 
   async deleteCollection(collectionId) {
-    await new Promise((resolve, reject) => {
+    const data = await new Promise((resolve, reject) => {
       this.client.deleteCollection({ CollectionId: collectionId }, (error, data) => error ? reject(error) : resolve(data));
     });
+    if (data.StatusCode !== 200) {
+      throw new Error('Collection could not be delete');
+    }
   }
 
   base64ToBlob(base64) {
