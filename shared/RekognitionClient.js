@@ -106,6 +106,12 @@ export default class {
     return data.CollectionIds.map((collectionId, i) => ({ id: collectionId, faceModelVersion: data.FaceModelVersions[i] }));
   }
 
+  async deleteCollection(collectionId) {
+    await new Promise((resolve, reject) => {
+      this.client.deleteCollection({ CollectionId: collectionId }, (error, data) => error ? reject(error) : resolve(data));
+    });
+  }
+
   base64ToBlob(base64) {
     const tmp = File.getTmpPath('.png');
     Media.writeBase64ToImage(tmp, base64);

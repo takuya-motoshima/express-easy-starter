@@ -10,9 +10,9 @@ function setupTable() {
   $table.on('click', '[action-delete]', async event => {
     if (!confirm('Do you want to delete the collection?')) return;
     const $row = $(event.currentTarget).closest('tr');
-    await floorApi.delete($row.data('id'));
-    await dt.deleteRow($row);
+    await faceCollectionsApi.delete($row.data('id'));
     alert('Deleted collection');
+    await dt.deleteRow($row);
   });
   return new DataTable($table, {
     columnDefs: [ { targets:1, orderable: false, searchable: false } ],
