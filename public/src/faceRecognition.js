@@ -1,16 +1,41 @@
-import '~/styles/faceRecognition.css';
+import '~/faceRecognition.css';
 import $ from 'jquery';
 import 'bootstrap';
-import FaceCollectionsApi from '~/apis/FaceCollectionsApi'
+import FaceCollectionsApi from '~/shared/FaceCollectionsApi'
+import DataTable from '~/shared/DataTable';
+import Template from '~/shared/Template';
 
-(async () => {
-
-  $('a[data-toggle="pill"]').on('shown.bs.tab', () => {
-    console.log('show');
+function setupTable() {
+  const $table = $('#table');
+  $table.on('click', '[action-delete]', async event => {
+    if (!confirm('Do you want to delete the collection?')) return;
+    const $row = $(event.currentTarget).closest('tr');
+    await floorApi.delete($row.data('id'));
+    await dt.deleteRow($row);
+    alert('Deleted collection');
   });
+  return new DataTable($table, {
+    columnDefs: [ { targets:1, orderable: false, searchable: false } ],
+    buttons: [{
+      text: 'Add collection',
+      className: 'btn-primary',
+      action: () => {
+        const id = prompt('Please enter a collection ID.', '');
+        console.log(id);
+      }
+    }],
+    order: [[ 1, 'asc' ] ]
+  });
+}
 
-  const faceCollectionsApi = new FaceCollectionsApi();
+async function loadData() {
   const collections = await faceCollectionsApi.query();
-  console.log('collections=', collections);
-})();
+  for (let collection of collections) {
+    dt.addRow($(teamplate(collection)));
+  }
+}
 
+const teamplate = Template.create($('#teamplate').html());
+const dt = setupTable();
+const faceCollectionsApi = new FaceCollectionsApi();
+loadData();

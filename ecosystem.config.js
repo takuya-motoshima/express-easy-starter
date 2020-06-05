@@ -7,7 +7,7 @@ module.exports = {
       exec_mode: 'cluster_mode',
       watch: '.',
       watch_delay: 1000,
-      ignore_watch : ['node_modules'],
+      ignore_watch : ['node_modules', 'public'],
       watch_options: {
         followSymlinks: false
       },

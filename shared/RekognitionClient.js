@@ -95,14 +95,15 @@ export default class {
     const data = await new Promise((resolve, reject) => {
       this.client.createCollection({ CollectionId: collectionId }, (error, data) => error ? reject(error) : resolve(data));
     });
-    console.log('data=', data);
+    console.log('data=', data.collectionId);
   }
 
   async getCollections() {
     const data = await new Promise((resolve, reject) => {
       this.client.listCollections({}, (error, data) => error ? reject(error) : resolve(data));
     });
-    console.log('data=', data);
+    if (!data.CollectionIds || !data.CollectionIds.length) return [];
+    return data.CollectionIds.map((collectionId, i) => ({ id: collectionId, faceModelVersion: data.FaceModelVersions[i] }));
   }
 
   base64ToBlob(base64) {

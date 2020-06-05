@@ -1,1 +1,1 @@
-import '~/styles/default.css';
+import '~/default.css';

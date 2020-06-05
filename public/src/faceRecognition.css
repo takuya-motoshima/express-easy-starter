@@ -1,0 +1,17 @@
+@import '~datatables.net-bs4/css/dataTables.bootstrap4.css';
+@import '~datatables.net-buttons-bs4/css/buttons.bootstrap4.css';
+@import '~datatables.net-responsive-bs4/css/responsive.bootstrap4.css';
+
+.example {
+  position: relative;
+  padding: 1rem;
+  margin: 1rem -15px 0;
+}
+
+@media (min-width: 576px) {
+  .example {
+    padding: 1.5rem;
+    margin-right: 0;
+    margin-left: 0;
+  }
+}

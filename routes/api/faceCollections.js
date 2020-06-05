@@ -4,7 +4,7 @@ import RekognitionClient from '../../shared/RekognitionClient';
 const router = express.Router();
 router.get('/', async (req, res, next) => {
   const client = new RekognitionClient();
-  const collections = client.getCollections();
+  const collections = await client.getCollections();
   res.json(collections);
 });
 export default router;
