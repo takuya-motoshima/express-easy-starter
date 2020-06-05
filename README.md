@@ -206,7 +206,7 @@ For information on other model methods, see "[Sequelize | Sequelize ORM](https:/
 
     // Search user table
     const userModel = new UserModel();
-    await accountModel.findAll({ raw: true });
+    await userModel.findAll({ raw: true });
     // [
     //   {
     //     "id": 1,
