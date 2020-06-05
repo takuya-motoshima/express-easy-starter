@@ -4,6 +4,53 @@ This is a start kit to quickly start the development of Express.
 
 The application uses ES6, the template engine is Handlebars, and the ORM is Sequelize.
 
+## Change Log
+
+###  0.0.4 (June 6, 2020)
+
+* It is now possible to define multiple section blocks in a subview that inherits layoutView.
+
+    File views/layout/default.hbs
+
+    ```html
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      {{{block "pageStyles"}}}
+    </head>
+    <body>
+
+      {{{body}}}
+
+      {{{block "pageScripts"}}}
+    </body>
+    </html>
+    ```
+
+    File views/index.hbs
+
+    ```html
+    {{!< layout}}
+
+    {{#contentFor 'pageStyles'}}
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    {{/contentFor}}
+
+    {{#contentFor 'pageStyles'}}
+    <script src="script.js"></script>
+    {{/contentFor}}
+
+    <h1>{{title}}</h1>
+    ```
+
+* Add Web pack to public
+
+###  0.0.2 (June 6, 2020)
+
+* Changed to automatically map URL and router module.
+
 ## Getting Started
 
 1. Install Node.js version 13
@@ -100,7 +147,7 @@ The application uses ES6, the template engine is Handlebars, and the ORM is Sequ
 
     ```sh
     cd /tmp/foo;
-    npm run start;
+    npm start;
     ```
 
 1. View the website at: https://{Your application host name}
@@ -227,6 +274,76 @@ For information on other model methods, see "[Sequelize | Sequelize ORM](https:/
     //   ...
     // ]
     ```
+
+### View
+
+#### Syntax
+
+1. To mark where layout should insert page
+
+    ```html
+    {{{body}}}
+    ```
+
+1. To declare a block placeholder in layout
+
+    ```html
+    {{{block "pageScripts"}}}
+    ```
+
+1. To define block content in a page
+
+    ```html
+    {{#contentFor "pageScripts"}}
+      CONTENT HERE
+    {{/contentFor}}
+    ```
+
+#### Layouts
+
+There are three ways to use a layout, listed in precedence order
+
+1. Declarative within a page. Use handlebars comment
+
+    ```html
+    {{!< default}}
+    ```
+
+1. File views/layout/default.hbs
+
+    ```html
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      {{{block "pageStyles"}}}
+    </head>
+    <body>
+
+      {{{body}}}
+
+      {{{block "pageScripts"}}}
+    </body>
+    </html>
+    ```
+1. File views/index.hbs
+
+    ```html
+    {{!< layout}}
+
+    {{#contentFor 'pageStyles'}}
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    {{/contentFor}}
+
+    {{#contentFor 'pageStyles'}}
+    <script src="script.js"></script>
+    {{/contentFor}}
+
+    <h1>{{title}}</h1>
+    ```
+
+To run example project
 
 ## License
 

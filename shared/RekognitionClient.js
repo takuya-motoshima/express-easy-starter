@@ -91,6 +91,20 @@ export default class {
     return similarity;
   }
 
+  async addCollection(collectionId) {
+    const data = await new Promise((resolve, reject) => {
+      this.client.createCollection({ CollectionId: collectionId }, (error, data) => error ? reject(error) : resolve(data));
+    });
+    console.log('data=', data);
+  }
+
+  async getCollections() {
+    const data = await new Promise((resolve, reject) => {
+      this.client.listCollections({}, (error, data) => error ? reject(error) : resolve(data));
+    });
+    console.log('data=', data);
+  }
+
   base64ToBlob(base64) {
     const tmp = File.getTmpPath('.png');
     Media.writeBase64ToImage(tmp, base64);

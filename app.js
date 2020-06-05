@@ -8,6 +8,7 @@ import fs from 'fs';
 import config from './config/config';
 import File from './shared/File';
 import Reflect from './shared/Reflect';
+import hbs from 'express-hbs';
 
 const app = express();
 
@@ -20,8 +21,15 @@ if (config.env) {
 }
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.engine('hbs', hbs.express4({
+  partialsDir: path.join(__dirname, 'views//partials'),
+  layoutsDir: path.join(__dirname, 'views/layout'),
+  defaultLayout: path.join(__dirname, 'views/layout/default.hbs')
+}));
 app.set('view engine', 'hbs');
+app.set('views',  path.join(__dirname, 'views'));
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
 
@@ -49,6 +57,7 @@ for (let path of File.glob(`${__dirname}/routes/**/*.js`)) {
   const { default: router } = require(path);
   const [ _, directory, file ] = path.match(/\/routes(?:(\/..*))?\/(..*)\.js/);
   const url = directory ? `${directory}/${file.toLowerCase()}` : `/${file.toLowerCase()}`;
+  console.log(`URL: ${url}`);
   app.use(url === config.defaultController ? '/' : url, router);
 }
 

@@ -1,7 +1,7 @@
 module.exports = {
   apps : [
     {
-      name: 'app',
+      name: 'express-easy-starter',
       script: 'bin/www.js',
       node_args: '-r esm',
       exec_mode: 'cluster_mode',
