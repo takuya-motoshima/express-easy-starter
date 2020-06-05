@@ -22,7 +22,7 @@ The application uses ES6, the template engine is Handlebars, and the ORM is Sequ
 
     ```sh
     cd /tmp/foo;
-    git clone ...;
+    git clone https://github.com/takuya-motoshima/express-easy-starter.git;
     ```
 
 1. Install required packages
