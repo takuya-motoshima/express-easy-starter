@@ -12,4 +12,13 @@ export default class {
     }
     return methods;
   }
+
+  static getMethods(object) {
+    const methods = new Set();
+    for(let obj = Object.getPrototypeOf(object); obj !== null && obj.__proto__ !== null; obj = Object.getPrototypeOf(obj)) {
+      let names = Object.getOwnPropertyNames(obj)
+      names.forEach(i => methods.add(i));
+    }
+    return methods;
+  }
 }

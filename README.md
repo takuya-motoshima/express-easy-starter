@@ -138,6 +138,16 @@ The application uses ES6, the template engine is Handlebars, and the ORM is Sequ
 
 ## Usage
 
+### URL routing
+
+URL routing is automatic in this application.  
+There is a one-to-one relationship between a URL string and its corresponding router module.
+
+For example "routes/users.js" is mapped to "https://{Your application}/users".
+
+Also, "routes/api/users.js" is mapped to "https://{Your application}/api/users".
+
+
 ### Model class
 
 Explains how to connect DB and how to use the model.  
