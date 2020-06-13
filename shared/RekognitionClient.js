@@ -21,15 +21,15 @@ export default class {
    * 
    * const client = new RekognitionClient();
    * 
-   * await client.detectionFaces('/upload/image.png');
-   * await client.detectionFaces('data:image/png;base64,/9j/4AAQ...');
-   * await client.detectionFaces(fs.readFileSync('/upload/image.png'));
+   * await client.detectFaces('/upload/image.png');
+   * await client.detectFaces('data:image/png;base64,/9j/4AAQ...');
+   * await client.detectFaces(fs.readFileSync('/upload/image.png'));
    * 
    * @param  {string} faceImage Image file path, base 64 character string, or BLOB
    * @param  {number} threshold
    * @return {Promise<Object>}
    */
-  async detectionFaces(faceImage, threshold = 90) {
+  async detectFaces(faceImage, threshold = 90) {
     if (/^data:image\//.test(faceImage)) {
       faceImage = this.base64ToBlob(faceImage);
     } else if (File.isFile(faceImage)) {

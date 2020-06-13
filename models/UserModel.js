@@ -18,4 +18,9 @@ export default class extends Model {
     };
     super(table, attributes);
   }
+
+  async isPasswordCorrect(id, password) {
+    const count = await this.count({ where: { id, password } });
+    return count > 0;
+  }
 }

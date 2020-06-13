@@ -1,12 +1,15 @@
-{{!< default}}
+{{!< leftSidebar}}
+
+{{#contentFor 'title'}}
+Welcome
+{{/contentFor}}
 
 {{#contentFor 'pageStyles'}}
-<link rel="stylesheet" type="text/css" href="/dist/index.css">
+<link rel="stylesheet" type="text/css" href="/index.css">
 {{/contentFor}}
 
 {{#contentFor 'pageScripts'}}
-<script src="/dist/index.js"></script>
+<script src="/index.js"></script>
 {{/contentFor}}
 
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<h3 class="text-center">Welcome to Express Framework Easy Starter!</h3>

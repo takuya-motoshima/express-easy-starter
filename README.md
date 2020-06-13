@@ -4,7 +4,44 @@ This is a start kit to quickly start the development of Express.
 
 The application uses ES6, the template engine is Handlebars, and the ORM is Sequelize.
 
+![Sign in](screencap-signin.png)
+
+![Sign out](screencap-profile.png)
+
+<!-- ![Sign in](https://raw.githubusercontent.com/takuya-motoshima/express-easy-starter/master/screencap-signin.png)
+![Sign out](https://raw.githubusercontent.com/takuya-motoshima/express-easy-starter/master/screencap-profile.png)
+ -->
 ## Change Log
+
+###  0.0.6 (June 7, 2020)
+
+* Added features for user sign-in and sign-out.
+
+* Added information about environment variables (.env) to "Getting Started".
+
+* Fixed a typo in the usage of View.
+
+    File views/index.hbs:
+
+    ```html
+    <!-- After: -->
+    {{!< default}}
+    ...
+    {{#contentFor 'pageScripts'}}
+    <script src="script.js"></script>
+    {{/contentFor}}
+
+    <!-- Before: -->
+    {{!< layout}}
+    ...
+    {{#contentFor 'pageStyles'}}
+    <script src="script.js"></script>
+    {{/contentFor}}
+    ```
+
+###  0.0.5 (June 6, 2020)
+
+* Add face collection page to sample
 
 ###  0.0.4 (June 6, 2020)
 
@@ -32,13 +69,13 @@ The application uses ES6, the template engine is Handlebars, and the ORM is Sequ
     File views/index.hbs
 
     ```html
-    {{!< layout}}
+    {{!< default}}
 
     {{#contentFor 'pageStyles'}}
     <link rel="stylesheet" type="text/css" href="/style.css">
     {{/contentFor}}
 
-    {{#contentFor 'pageStyles'}}
+    {{#contentFor 'pageScripts'}}
     <script src="script.js"></script>
     {{/contentFor}}
 
@@ -143,6 +180,23 @@ The application uses ES6, the template engine is Handlebars, and the ORM is Sequ
     }
     ```
 
+1. Create an environment variable.
+
+    Create "/tmp/foo/.env" and add the following.  
+    These can be accessed from the application in a format like "process.env.NODE_ENV".
+
+    ```sh
+    NODE_ENV=development
+    AWS_REKOGNITION_REGION=ap-northeast-1
+    AWS_REKOGNITION_ACCESS_KEY=...
+    AWS_REKOGNITION_SECRET_KEY=...
+    ```
+
+    |Name|Description|
+    |-|-|
+    |NODE_ENV|Set "production", "test" or "development".<br>The application connects to the DB of "config/database.js" set here.|
+    |AWS_REKOGNITION_REGION<br>AWS_REKOGNITION_ACCESS_KEY<br>AWS_REKOGNITION_SECRET_KEY|Describe the information to access the Amazon Rekognition service used by "shared/RekognitionClient.js".<br>Do not write if your application does not use "shared/RekognitionClient.js".|
+
 1. Start an app
 
     ```sh
@@ -151,7 +205,6 @@ The application uses ES6, the template engine is Handlebars, and the ORM is Sequ
     ```
 
 1. View the website at: https://{Your application host name}
-
 
 1. Create a table of login accounts
 
@@ -185,6 +238,136 @@ The application uses ES6, the template engine is Handlebars, and the ORM is Sequ
 
 ## Usage
 
+### Features of user sign-in and sign-out
+
+This application uses Passport to authenticate users.
+
+1. To use user authentication, add the following settings to "config/config.js".
+
+    **config/config.js:**
+
+    ```js
+    userSignin: {
+        enabled: true,
+        usernameField: 'email',
+        passwordField: 'password',
+        successRedirect: '/',
+        failureRedirect: '/signin'
+    }
+    ```
+
+    |Name|Description|
+    |-|-|
+    |enabled|Set to true to use user authentication.|
+    |usernameField|Login ID column name of the user table.|
+    |passwordField|Password column name of the user table.|
+    |successRedirect|URL of the page to display after signing in|
+    |failureRedirect|The URL of the page to display when signing out. This is usually the sign-in page.|
+
+1. Create a sign-in page.
+
+    **routes/signin.js:**
+
+    ```js
+    import express from 'express';
+
+    const router = express.Router();
+    router.get('/', async (req, res, next) => {
+      res.render('signin');
+    });
+    export default router;
+    ```
+
+    **views/signin.hbs:**
+
+    ```html
+    <form id="form">
+        <p>
+            <label>Email:</label>
+            <input name="email" type="email"  autocomplete="off" autofocus="autofocus" required>
+        </p>
+        <p>
+            <label>Password:</label>
+            <input name="password" type="password" required>
+        </p>
+        <button type="submit">Sign in</button>
+    </form>
+    <script>
+        document.querySelector('#form').addEventListener('submit', async event => {
+          event.preventDefault();
+          const formData = new FormData(event.target);
+          const data = Object.fromEntries(formData.entries());
+          const isSuccess = await (await fetch(`/api/signin`, {
+            method: 'POST',
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          })).json();
+          if (!isSuccess) return void alert('The email address or password is incorrect.');
+          location.href = '/';
+        });
+    </script>
+    ```
+
+1. Create a page for sign-in users and add a sign-out button.
+
+    **routes/index.js:**
+
+    ```js
+    import express from 'express';
+
+    const router = express.Router();
+    router.get('/', async (req, res, next) => {
+      res.render('index');
+    });
+    export default router;
+    ```
+
+    **views/index.hbs:**
+
+    ```html
+    <h3>Welcome, {{session.name}}</h3>
+    <p><a href="/api/signout">Sign out</a></p>
+    ```
+
+1. Add a sign-in action.
+
+    **routes/api/signin.js:**
+
+    ```js
+    import express from 'express';
+    import UserSignin from '../../shared/UserSignin';
+
+    const router = express.Router();
+    router.post('/', async (req, res, next) => {
+      const userSignin = new UserSignin();
+      const isSuccess  = await userSignin.signin(req, res, next);
+      res.json(isSuccess);
+    });
+    export default router;
+    ```
+
+1. Add a sign-out action.
+
+    **routes/api/signout.js:**
+
+    ```js
+    import express from 'express';
+    import UserSignin from '../../shared/UserSignin';
+
+    const router = express.Router();
+    router.get('/', async (req, res, next) => {
+      const userSignin = new UserSignin();
+      userSignin.signout(req, res, next);
+      res.redirect('/');
+    });
+    export default router;
+    ```
+
+1. You can open "https://{application host name}" in your browser to view the sign page.
+
 ### URL routing
 
 URL routing is automatic in this application.  
@@ -194,13 +377,12 @@ For example "routes/users.js" is mapped to "https://{Your application}/users".
 
 Also, "routes/api/users.js" is mapped to "https://{Your application}/api/users".
 
-
 ### Model class
 
 Explains how to connect DB and how to use the model.  
 For information on other model methods, see "[Sequelize | Sequelize ORM](https://sequelize.org/)".
 
-1. Add the database connection information to "config/database.js".
+* Add the database connection information to "config/database.js".
 
     ```js
     export default {
@@ -220,7 +402,7 @@ For information on other model methods, see "[Sequelize | Sequelize ORM](https:/
       ...
     ```
 
-1. Create a user model in “models/UserModel.js”.
+* Create a user model in “models/UserModel.js”.
 
     ```js
     import Model from '../shared/Model';
@@ -245,8 +427,7 @@ For information on other model methods, see "[Sequelize | Sequelize ORM](https:/
       }
     }
     ```
-
-1. Access the table using the user model.
+* Access the table using the user model.
 
     ```js
     import UserModel from '../models/UserModel';
@@ -277,21 +458,21 @@ For information on other model methods, see "[Sequelize | Sequelize ORM](https:/
 
 ### View
 
-#### Syntax
+* Syntax
 
-1. To mark where layout should insert page
+    To mark where layout should insert page
 
     ```html
     {{{body}}}
     ```
 
-1. To declare a block placeholder in layout
+    To declare a block placeholder in layout
 
     ```html
     {{{block "pageScripts"}}}
     ```
 
-1. To define block content in a page
+    To define block content in a page
 
     ```html
     {{#contentFor "pageScripts"}}
@@ -299,17 +480,17 @@ For information on other model methods, see "[Sequelize | Sequelize ORM](https:/
     {{/contentFor}}
     ```
 
-#### Layouts
+* Layouts
 
-There are three ways to use a layout, listed in precedence order
+    There are three ways to use a layout, listed in precedence order
 
-1. Declarative within a page. Use handlebars comment
+    Declarative within a page. Use handlebars comment
 
     ```html
     {{!< default}}
     ```
 
-1. File views/layout/default.hbs
+    File views/layout/default.hbs
 
     ```html
     <!DOCTYPE html>
@@ -327,23 +508,24 @@ There are three ways to use a layout, listed in precedence order
     </body>
     </html>
     ```
-1. File views/index.hbs
+
+    File views/index.hbs
 
     ```html
-    {{!< layout}}
+    {{!< default}}
 
     {{#contentFor 'pageStyles'}}
     <link rel="stylesheet" type="text/css" href="/style.css">
     {{/contentFor}}
 
-    {{#contentFor 'pageStyles'}}
+    {{#contentFor 'pageScripts'}}
     <script src="script.js"></script>
     {{/contentFor}}
 
     <h1>{{title}}</h1>
     ```
 
-To run example project
+    To run example project
 
 ## License
 

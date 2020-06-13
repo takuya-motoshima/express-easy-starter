@@ -1,0 +1,135 @@
+{{!< leftSidebar}}
+
+{{#contentFor 'title'}}
+Profile
+{{/contentFor}}
+
+{{#contentFor 'pageStyles'}}
+<link rel="stylesheet" type="text/css" href="/profile.css">
+{{/contentFor}}
+
+{{#contentFor 'pageScripts'}}
+<script src="/profile.js"></script>
+{{/contentFor}}
+
+<div class="row">
+
+  <div class="col-md-12">
+
+    <div class="card">
+
+      <div class="card-header card-header-divider">Profile</div>
+
+      <div class="card-body">
+
+        <form id="form" autocomplete="off">
+
+          <input type="hidden" id="id" value="{{ session.id }}">
+
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label text-sm-right">Email</label>
+            <div class="col-12 col-sm-7 col-md-5 col-lg-4">
+              <input type="text" readonly class="form-control-plaintext" value="{{session.email}}">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label text-sm-right">User name</label>
+            <div class="col-12 col-sm-7 col-md-5 col-lg-4" id="account-name-errors">
+              <input
+                name="name"
+                class="form-control"
+                type="text"
+                value="{{session.name}}"
+                required
+                data-parsley-trigger="change"
+                data-parsley-errors-container="#account-name-errors"
+                autotrim>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label text-sm-right">Change password</label>
+            <div class="col-12 col-sm-7 col-md-5 col-lg-4">
+              <label class="custom-control custom-checkbox custom-control-inline">
+                <input
+                  name="changePassword"
+                  class="custom-control-input"
+                  type="checkbox"
+                  value="1"
+                  data-toggle="collapse"
+                  data-target="#passwordField">
+                <span class="custom-control-label custom-control-color"></span>
+              </label>
+            </div>
+          </div>
+
+          <div id="passwordField" class="collapse">
+
+            <div class="form-group row">
+              <label class="col-12 col-sm-3 col-form-label text-sm-right">Current password</label>
+              <div class="col-12 col-sm-7 col-md-5 col-lg-4" id="account-password-errors">
+                <input
+                  name="password"
+                  id="password"
+                  class="form-control"
+                  type="password"
+                  autocomplete="off"
+                  disabled
+                  required
+                  data-parsley-trigger="change"
+                  data-parsley-errors-container="#account-password-errors">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-12 col-sm-3 col-form-label text-sm-right">New password</label>
+              <div class="col-12 col-sm-7 col-md-5 col-lg-4" id="account-new-password-errors">
+                <input
+                  name="newPassword"
+                  id="newPassword"
+                  class="form-control"
+                  type="password"
+                  autocomplete="off"
+                  disabled
+                  required
+                  data-parsley-trigger="change"
+                  data-parsley-pattern="/^[a-zA-Z0-9!-\/:-@¥[-`{-~]{8,100}$/"
+                  data-parsley-pattern-message="The password must be 8 to 100 alphanumeric characters and symbols."
+                  data-parsley-errors-container="#account-new-password-errors">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-12 col-sm-3 col-form-label text-sm-right">Confirm new password</label>
+              <div class="col-12 col-sm-7 col-md-5 col-lg-4" id="account-new-password-confirm-errors">
+                <input
+                  name="confirmPassword"
+                  id="confirmPassword"
+                  class="form-control"
+                  type="password"
+                  autocomplete="off"
+                  disabled
+                  required
+                  data-parsley-trigger="change"
+                  data-parsley-equalto="#newPassword"
+                  data-parsley-errors-container="#account-new-password-confirm-errors"
+                  data-parsley-equalto-message="Does not match new password.">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row text-right">
+            <div class="col-12 col-sm-7 offset-sm-3 col-md-5 col-lg-4">
+              <button class="btn btn-space btn-primary" type="submit">save</button>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

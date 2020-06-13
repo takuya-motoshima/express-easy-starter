@@ -1,0 +1,50 @@
+{{!< default}}
+
+{{#contentFor 'title'}}
+Sign in
+{{/contentFor}}
+
+{{#contentFor 'pageStyles'}}
+<link rel="stylesheet" type="text/css" href="/signin.css">
+{{/contentFor}}
+
+{{#contentFor 'pageScripts'}}
+<script src="/signin.js"></script>
+{{/contentFor}}
+
+{{#contentFor 'bodyClass'}}
+b4t-splash-screen
+{{/contentFor}}
+
+<div class="b4t-wrapper b4t-login">
+  <div class="b4t-content">
+    <div class="main-content container-fluid">
+      <div class="splash-container">
+        <div class="card card-border-color card-border-color-primary">
+          <div class="card-header">
+            <img class="logo-img" src="/images/brand.png" alt="logo" width="48">
+            <span class="splash-description">
+              Please enter your user information.
+              <br>
+              <br>
+              You can try to login with the user name <b class="font-weight-bold">"robin@example.com"</b> and the password <b class="font-weight-bold">"password"</b>.
+            </span>
+          </div>
+          <div class="card-body">
+            <form id="form">
+              <div class="form-group">
+                <input class="form-control" name="email" type="email" placeholder="Email" autocomplete="off" autofocus="autofocus" value="robin@example.com" required>
+              </div>
+              <div class="form-group">
+                <input class="form-control" name="password" type="password" placeholder="Password" value="password" required>
+              </div>
+              <div class="form-group login-submit">
+                <button type="submit" class="btn btn-primary btn-xl">Sign in</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

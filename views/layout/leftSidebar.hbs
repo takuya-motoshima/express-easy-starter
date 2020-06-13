@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{{block "title"}}} | Express Framework Easy Starter</title>
+  <link rel="stylesheet" type="text/css" href="/theme.css">
+  <link rel="stylesheet" type="text/css" href="/leftSidebarLayout.css">
+  {{{block "pageStyles"}}}
+</head>
+<body>
+  <div class="b4t-wrapper">
+
+    <nav class="navbar navbar-expand fixed-top b4t-top-header">
+      <div class="container-fluid">
+        <div class="b4t-navbar-header"><a class="navbar-brand" href="/"></a></div>
+        <div class="page-title"><span>Express Framework Easy Starter</span></div>
+        <div class="b4t-right-navbar">
+          <ul class="nav navbar-nav float-right b4t-user-nav">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false">
+                <i class="mdi mdi-more-vert"></i>
+                <span class="user-name">{{session.name}}</span>
+              </a>
+              <div class="dropdown-menu" role="menu">
+                <div class="user-info">
+                  <div class="user-name">{{session.name}}</div>
+                  <div class="user-position online">Available</div>
+                </div>
+                <a class="dropdown-item" href="/profile"><span class="icon mdi mdi-settings"></span>Profile</a>
+                <a class="dropdown-item" href="/api/signout"><span class="icon mdi mdi-power"></span>Sign out</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="b4t-left-sidebar">
+      <div class="left-sidebar-wrapper">
+        <a class="left-sidebar-toggle" href="#">{{{block "title"}}}</a>
+        <div class="left-sidebar-spacer">
+          <div class="left-sidebar-scroll">
+            <div class="left-sidebar-content">
+              <ul class="sidebar-elements">
+                <li class="active"><a href="/"><i class="icon mdi mdi-home"></i><span>Welcome</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="b4t-content">
+      <div class="main-content container-fluid">
+        {{{body}}}
+      </div>
+    </div>
+  </div>
+
+  <script src="/theme.js"></script>
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="/node_modules/parsleyjs/dist/parsley.min.js"></script>
+  {{{block "pageScripts"}}}
+</body>
+</html>

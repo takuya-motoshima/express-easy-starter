@@ -5,18 +5,19 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import dotenv from 'dotenv';
 import fs from 'fs';
+import hbs from 'express-hbs';
 import config from './config/config';
 import File from './shared/File';
 import Reflect from './shared/Reflect';
-import hbs from 'express-hbs';
+import UserSignin from './shared/UserSignin';
 
 const app = express();
 
 // Load environment variables
-if (config.env) {
-  const env = dotenv.parse(fs.readFileSync(config.env))
-  for (const k in env) {
-    process.env[k] = env[k]
+if (config.envPath) {
+  const env = dotenv.parse(fs.readFileSync(config.envPath))
+  for (let key in env) {
+    process.env[key] = env[key]
   }
 }
 
@@ -44,12 +45,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Allow CORS
 if (config.CORS) {
   app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+    // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Credentials', true);
     req.requestedUrl = req.path;
     next();
   });
+}
+
+// User authentication
+if (config.userSignin.enabled) {
+  const userSignin = new UserSignin();
+  userSignin.attach(app, config.userSignin);
 }
 
 // URL routing
