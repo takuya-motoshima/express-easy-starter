@@ -6,5 +6,14 @@ class Database extends Sequelize {
     const config = database[process.env.NODE_ENV || 'development'];
     super(config.database, config.username, config.password, config);
   }
+
+  async isConnect() {
+    try {
+      await this.authenticate();
+      return true;
+    } catch {
+      return false;
+    }
+  }
 }
 export default new Database();

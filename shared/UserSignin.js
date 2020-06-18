@@ -14,7 +14,8 @@ export default class {
       usernameField: 'username',
       passwordField: 'password',
       successRedirect: '/',
-      failureRedirect: '/login'
+      failureRedirect: '/login',
+      unauthenticatedUrl: []
     }, options);
     app.use(session({
       secret: 'secret',
@@ -48,6 +49,15 @@ export default class {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use((req, res, next) => {
+
+      // Check if the request URL does not require authentication
+      if (options.unauthenticatedUrl && options.unauthenticatedUrl.length) {
+        const requestUrl = req.path.replace(/\/$/, '');
+        if (options.unauthenticatedUrl.indexOf(requestUrl) !== -1) {
+          return void next();
+        }
+      }
+
       const isAjax = req.xhr;
       if (req.isAuthenticated()) {
         if (req.path !== options.failureRedirect || isAjax) {

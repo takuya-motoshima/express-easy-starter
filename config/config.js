@@ -8,6 +8,9 @@ export default {
     usernameField: 'email',
     passwordField: 'password',
     successRedirect: '/',
-    failureRedirect: '/signin'
+    failureRedirect: '/signin',
+    unauthenticatedUrl: [
+      '/test/is-db-connect'
+    ]
   }
 }

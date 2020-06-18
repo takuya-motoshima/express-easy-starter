@@ -4,14 +4,46 @@ This is a start kit to quickly start the development of Express.
 
 The application uses ES6, the template engine is Handlebars, and the ORM is Sequelize.
 
-![Sign in](screencap-signin.png)
+<img src="screencap-signin.png" width="400" style="display: block; margin-bottom: 10px;">
+<img src="screencap-profile.png" width="400" style="display: block; margin-bottom: 10px;">
 
-![Sign out](screencap-profile.png)
+<!-- ![Sign in](screencap-signin.png) -->
+<!-- ![Sign out](screencap-profile.png) -->
+<!-- ![Sign in](https://raw.githubusercontent.com/takuya-motoshima/express-easy-starter/master/screencap-signin.png) -->
+<!-- ![Sign out](https://raw.githubusercontent.com/takuya-motoshima/express-easy-starter/master/screencap-profile.png) -->
 
-<!-- ![Sign in](https://raw.githubusercontent.com/takuya-motoshima/express-easy-starter/master/screencap-signin.png)
-![Sign out](https://raw.githubusercontent.com/takuya-motoshima/express-easy-starter/master/screencap-profile.png)
- -->
 ## Change Log
+
+###  0.0.7 (June 18, 2020)
+
+* Added a method to set a URL that can be accessed without authentication for user authentication.
+
+    For example, the sign-up page does not require user authentication.
+    In that case, set the URL of the sign-up page to "userSignin.unauthenticatedUrl" in the settings as shown below.
+
+    **config/config.js:**
+
+    ```js
+    userSignin: {
+      enabled: true,
+      usernameField: 'email',
+      passwordField: 'password',
+      successRedirect: '/',
+      failureRedirect: '/signin',
+      unauthenticatedUrl: [
+        '/signup'
+      ]
+    }
+    ```
+
+* Add DB connection judgment method to DB class (shared/Database).
+
+    ```js
+    import Database from '../shared/Database';
+
+    const isConnect = await Database.isConnect();
+    ```
+
 
 ###  0.0.6 (June 7, 2020)
 
@@ -252,7 +284,10 @@ This application uses Passport to authenticate users.
         usernameField: 'email',
         passwordField: 'password',
         successRedirect: '/',
-        failureRedirect: '/signin'
+        failureRedirect: '/signin',
+        unauthenticatedUrl: [
+          '/signup'
+        ]
     }
     ```
 
@@ -263,6 +298,7 @@ This application uses Passport to authenticate users.
     |passwordField|Password column name of the user table.|
     |successRedirect|URL of the page to display after signing in|
     |failureRedirect|The URL of the page to display when signing out. This is usually the sign-in page.|
+    |unauthenticatedUrl|Set the URL that can be accessed without user authentication.|
 
 1. Create a sign-in page.
 
