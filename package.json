@@ -1,64 +1,85 @@
 {
-  "name": "express-easy-starter",
-  "version": "0.0.7",
+  "name": "node-shared-module",
+  "version": "1.0.0",
+  "description": "This is a shared module of node.js.",
   "_moduleAliases": {
     "~": "."
   },
-  "//type": "module",
+  "main": "dist/build.common.js",
+  "module": "dist/build.esm.js",
+  "types": "types/index.d.ts",
   "scripts": {
-    "start": "env TZ='Asia/Tokyo' pm2 start ecosystem.config.js",
-    "restart": "env TZ='Asia/Tokyo' pm2 restart ecosystem.config.js",
-    "stop": "pm2 stop ecosystem.config.js"
+    "watch": "rollup -c --watch",
+    "prewatch": "rm -rf dist types && json2module package.json > src/package.ts",
+    "build": "rollup -c",
+    "prebuild": "rm -rf dist types && json2module package.json > src/package.ts",
+    "test": "jest",
+    "start": "ts-node -r tsconfig-paths/register -P tsconfig.json -O '{\"module\":\"commonjs\"}' -e \"import * as index from '~/index';console.log(index);\"",
+    "prestart": "json2module package.json > src/package.ts"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/takuya-motoshima/express-easy-starter.git"
+    "url": "git+https://github.com/takuya-motoshima/node-shared-module.git"
   },
+  "files": [
+    "dist/*.js",
+    "types/*.d.ts",
+    "package.json"
+  ],
   "keywords": [
+    "node",
     "nodejs",
-    "express",
-    "admin",
+    "javascript",
+    "js",
+    "shared",
+    "library",
+    "lib",
+    "module",
+    "typescript",
+    "ts",
     "esm",
-    "es6",
-    "orm",
-    "mysql",
-    "mariadb",
-    "sqlite",
-    "postgresql",
-    "postgres",
-    "mssql"
+    "es6"
   ],
   "author": "Takuya Motoshima <developer.takuyamotoshima@gmail.com> (https://twitter.com/TakuyaMotoshima)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/takuya-motoshima/express-easy-starter/issues",
+    "url": "https://github.com/takuya-motoshima/node-shared-module/issues",
     "email": "developer.takuyamotoshima@gmail.com"
   },
-  "homepage": "https://github.com/takuya-motoshima/express-easy-starter#readme",
+  "homepage": "https://github.com/takuya-motoshima/node-shared-module#readme",
   "dependencies": {
-    "aws-sdk": "^2.690.0",
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "dotenv": "^8.2.0",
-    "esm": "^3.2.25",
-    "express": "~4.16.1",
-    "express-hbs": "^2.3.3",
-    "express-session": "^1.17.1",
+    "bowser": "^2.10.0",
     "fs-extra": "^9.0.1",
     "glob": "^7.1.6",
-    "hbs": "~4.0.4",
-    "http-errors": "~1.6.3",
-    "mariadb": "^2.4.0",
+    "image-size": "^0.8.3",
     "mime-types": "^2.1.27",
     "module-alias": "^2.2.2",
     "moment": "^2.26.0",
-    "morgan": "~1.9.1",
-    "passport": "^0.4.1",
-    "passport-local": "^1.0.0",
-    "sequelize": "^5.21.11",
+    "reflect-metadata": "^0.1.13",
+    "sharp": "^0.25.4",
     "uniqid": "^5.2.0"
   },
   "devDependencies": {
-    "sequelize-cli": "^5.5.1"
+    "@types/fs-extra": "^9.0.1",
+    "@types/glob": "^7.1.2",
+    "@types/jest": "^26.0.3",
+    "@types/mime-types": "^2.1.0",
+    "@types/node": "^14.0.22",
+    "@types/sharp": "^0.25.0",
+    "@types/uniqid": "^5.2.0",
+    "builtin-modules": "^3.1.0",
+    "jest": "^26.1.0",
+    "json2module": "0.0.3",
+    "rollup": "^2.21.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^6.1.0",
+    "rollup-plugin-typescript2": "^0.27.1",
+    "ts-loader": "^7.0.5",
+    "ts-node": "^8.10.2",
+    "tsconfig-paths": "^3.9.0",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.5"
   }
 }

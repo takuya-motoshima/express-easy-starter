@@ -1,567 +1,244 @@
-# Node.js - Express Framework Easy Starter
+# node-shared-module
 
-This is a start kit to quickly start the development of Express.
+This is a shared module of node.js.
 
-The application uses ES6, the template engine is Handlebars, and the ORM is Sequelize.
+## Installation
 
-<img src="screencap-signin.png" width="400" style="display: block; margin-bottom: 10px;">
-<img src="screencap-profile.png" width="400" style="display: block; margin-bottom: 10px;">
+Install.
 
-<!-- ![Sign in](screencap-signin.png) -->
-<!-- ![Sign out](screencap-profile.png) -->
-<!-- ![Sign in](https://raw.githubusercontent.com/takuya-motoshima/express-easy-starter/master/screencap-signin.png) -->
-<!-- ![Sign out](https://raw.githubusercontent.com/takuya-motoshima/express-easy-starter/master/screencap-profile.png) -->
-
-## Change Log
-
-###  0.0.7 (June 18, 2020)
-
-* Added a method to set a URL that can be accessed without authentication for user authentication.
-
-    For example, the sign-up page does not require user authentication.
-    In that case, set the URL of the sign-up page to "userSignin.unauthenticatedUrl" in the settings as shown below.
-
-    **config/config.js:**
-
-    ```js
-    userSignin: {
-      enabled: true,
-      usernameField: 'email',
-      passwordField: 'password',
-      successRedirect: '/',
-      failureRedirect: '/signin',
-      unauthenticatedUrl: [
-        '/signup'
-      ]
-    }
-    ```
-
-* Add DB connection judgment method to DB class (shared/Database).
-
-    ```js
-    import Database from '../shared/Database';
-
-    const isConnect = await Database.isConnect();
-    ```
-
-
-###  0.0.6 (June 7, 2020)
-
-* Added features for user sign-in and sign-out.
-
-* Added information about environment variables (.env) to "Getting Started".
-
-* Fixed a typo in the usage of View.
-
-    File views/index.hbs:
-
-    ```html
-    <!-- After: -->
-    {{!< default}}
-    ...
-    {{#contentFor 'pageScripts'}}
-    <script src="script.js"></script>
-    {{/contentFor}}
-
-    <!-- Before: -->
-    {{!< layout}}
-    ...
-    {{#contentFor 'pageStyles'}}
-    <script src="script.js"></script>
-    {{/contentFor}}
-    ```
-
-###  0.0.5 (June 6, 2020)
-
-* Add face collection page to sample
-
-###  0.0.4 (June 6, 2020)
-
-* It is now possible to define multiple section blocks in a subview that inherits layoutView.
-
-    File views/layout/default.hbs
-
-    ```html
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      {{{block "pageStyles"}}}
-    </head>
-    <body>
-
-      {{{body}}}
-
-      {{{block "pageScripts"}}}
-    </body>
-    </html>
-    ```
-
-    File views/index.hbs
-
-    ```html
-    {{!< default}}
-
-    {{#contentFor 'pageStyles'}}
-    <link rel="stylesheet" type="text/css" href="/style.css">
-    {{/contentFor}}
-
-    {{#contentFor 'pageScripts'}}
-    <script src="script.js"></script>
-    {{/contentFor}}
-
-    <h1>{{title}}</h1>
-    ```
-
-* Add Web pack to public
-
-###  0.0.2 (June 6, 2020)
-
-* Changed to automatically map URL and router module.
-
-## Getting Started
-
-1. Install Node.js version 13
-
-    1. Install Node.js version control tool
-
-        ```sh
-        npm install -g n;
-        ```
-    1. Install Node.js version 13
-
-        ```sh
-        n 13;
-        ```
-1. Clone the starter project
-
-    ```sh
-    cd /tmp/foo;
-    git clone https://github.com/takuya-motoshima/express-easy-starter.git;
-    ```
-
-1. Install required packages
-
-    ```sh
-    npm install;
-    ```
-
-1. Install the latest version of PM2
-
-    ```sh
-    npm install -g pm2@latest;
-    ```
-
-1. Add the web server settings to "/etc/nginx/conf.d/express-easy-starter.conf" and restart nginx.
-
-    /etc/nginx/conf.d/express-easy-starter.conf:
-
-    ```Nginx
-    upstream express-easy-starter-upstream {
-      # ip_hash;
-      server 127.0.0.1:3001;
-      # keepalive 64;
-    }
-
-    server {
-      listen 80;
-      server_name {Your application host name};
-      charset UTF-8;
-      access_log /var/log/nginx/express-easy-starter.access.log  main;
-      error_log /var/log/nginx/express-easy-starter.error.log  warn;
-
-      # Hide PHP version and web server software name
-      server_tokens off;
-      #more_clear_headers X-Powered-By;
-      #more_clear_headers Server;
-
-      # Proxy to nodejs app
-      location / {
-
-        #proxy_set_header X-Forwarded-Proto https;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header Host $http_host;
-
-        # Buffering
-        client_max_body_size 100m;
-        client_body_buffer_size 100m;
-        client_body_temp_path /var/cache/nginx/client_temp;
-        proxy_buffers 8 10m;
-        proxy_buffer_size 10m;
-        proxy_busy_buffers_size 10m;
-
-        # Disable caching
-        set $do_not_cache 1;
-        proxy_no_cache $do_not_cache;
-        proxy_cache_bypass $do_not_cache;
-        sendfile off;
-
-        # Enable WebSockets
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-
-        # Send a request to an Express application
-        proxy_redirect off;
-        proxy_read_timeout 1m;
-        proxy_connect_timeout 1m;
-        proxy_pass http://express-easy-starter-upstream;
-      }
-    }
-    ```
-
-1. Create an environment variable.
-
-    Create "/tmp/foo/.env" and add the following.  
-    These can be accessed from the application in a format like "process.env.NODE_ENV".
-
-    ```sh
-    NODE_ENV=development
-    AWS_REKOGNITION_REGION=ap-northeast-1
-    AWS_REKOGNITION_ACCESS_KEY=...
-    AWS_REKOGNITION_SECRET_KEY=...
-    ```
-
-    |Name|Description|
-    |-|-|
-    |NODE_ENV|Set "production", "test" or "development".<br>The application connects to the DB of "config/database.js" set here.|
-    |AWS_REKOGNITION_REGION<br>AWS_REKOGNITION_ACCESS_KEY<br>AWS_REKOGNITION_SECRET_KEY|Describe the information to access the Amazon Rekognition service used by "shared/RekognitionClient.js".<br>Do not write if your application does not use "shared/RekognitionClient.js".|
-
-1. Start an app
-
-    ```sh
-    cd /tmp/foo;
-    npm start;
-    ```
-
-1. View the website at: https://{Your application host name}
-
-1. Create a table of login accounts
-
-    ```sql
-
-    CREATE DATABASE IF NOT EXISTS `sample` DEFAULT CHARACTER SET utf8mb4;
-
-    USE `sample`;
-
-    CREATE TABLE `user` (
-      `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-      `email` varchar(255) NOT NULL,
-      `password` varchar(100) NOT NULL,
-      `name` varchar(30) NOT NULL,
-      `created` datetime NOT NULL DEFAULT current_timestamp(),
-      `modified` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-      PRIMARY KEY (`id`),
-      UNIQUE KEY `ukAccount1` (`email`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-    INSERT INTO `user` (`email`, `password`, `name`) VALUES
-      ('robin@example.com', 'password', 'Robin'),
-      ('taylor@example.com', 'password', 'Taylor'),
-      ('vivian@example.com', 'password', 'Vivian'),
-      ('harry@example.com', 'password', 'Harry'),
-      ('eliza@example.com', 'password', 'Eliza'),
-      ('nancy@example.com', 'password', 'Nancy'),
-      ('melinda@example.com', 'password', 'Melinda'),
-      ('harley@example.com', 'password', 'Harley');
-    ```
+```sh
+npm install node-shared-module;
+```
 
 ## Usage
 
-### Features of user sign-in and sign-out
+### File
 
-This application uses Passport to authenticate users.
+General file manipulation utilities.
 
-1. To use user authentication, add the following settings to "config/config.js".
+```js
+import { File } from 'node-shared-module';
 
-    **config/config.js:**
+// Returns the file base name
+File.basename('/tmp/sample.html');// 'sample'
 
-    ```js
-    userSignin: {
-        enabled: true,
-        usernameField: 'email',
-        passwordField: 'password',
-        successRedirect: '/',
-        failureRedirect: '/signin',
-        unauthenticatedUrl: [
-          '/signup'
-        ]
-    }
-    ```
+// Change permissions
+File.chmod('sample.txt', 0o755);
 
-    |Name|Description|
-    |-|-|
-    |enabled|Set to true to use user authentication.|
-    |usernameField|Login ID column name of the user table.|
-    |passwordField|Password column name of the user table.|
-    |successRedirect|URL of the page to display after signing in|
-    |failureRedirect|The URL of the page to display when signing out. This is usually the sign-in page.|
-    |unauthenticatedUrl|Set the URL that can be accessed without user authentication.|
+// Create tmp directory
+File.makeTmpDirectory();// '/tmp/5tbwc2dukck66vyk/'
 
-1. Create a sign-in page.
+// Make a directory
+File.makeDirectory('test');
 
-    **routes/signin.js:**
+// Returns whether the file exists
+File.existsFile('sample.txt');// true
 
-    ```js
-    import express from 'express';
+// Delete file
+File.deleteFile('sample.txt');
 
-    const router = express.Router();
-    router.get('/', async (req, res, next) => {
-      res.render('signin');
-    });
-    export default router;
-    ```
+// Write a file
+File.write('sample.txt', 'Hello, World!');
 
-    **views/signin.hbs:**
+// Read a file as a string
+File.readAsString('sample.txt');// 'Hello, World!'
 
-    ```html
-    <form id="form">
-        <p>
-            <label>Email:</label>
-            <input name="email" type="email"  autocomplete="off" autofocus="autofocus" required>
-        </p>
-        <p>
-            <label>Password:</label>
-            <input name="password" type="password" required>
-        </p>
-        <button type="submit">Sign in</button>
-    </form>
-    <script>
-        document.querySelector('#form').addEventListener('submit', async event => {
-          event.preventDefault();
-          const formData = new FormData(event.target);
-          const data = Object.fromEntries(formData.entries());
-          const isSuccess = await (await fetch(`/api/signin`, {
-            method: 'POST',
-            headers: {
-              'X-Requested-With': 'XMLHttpRequest',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-          })).json();
-          if (!isSuccess) return void alert('The email address or password is incorrect.');
-          location.href = '/';
-        });
-    </script>
-    ```
 
-1. Create a page for sign-in users and add a sign-out button.
+// Read file as JSON object
+File.readAsJson('sample.json');// { name: 'John Smith', age: 30 }
 
-    **routes/index.js:**
+// Read files in base64 format
+File.readAsBase64('sample.jpg');// 'data:image/jpeg;base64,/9j/4AAQSk...'
 
-    ```js
-    import express from 'express';
+// Returns file information
+File.getStat('sample.txt');
+                              // Stats {
+                              //   dev: 66305,
+                              //   mode: 33261,
+                              //   nlink: 1,
+                              //   uid: 1000,
+                              //   gid: 1000,
+                              //   rdev: 0,
+                              //   blksize: 4096,
+                              //   ino: 13617488,
+                              //   size: 13,
+                              //   blocks: 8,
+                              //   atimeMs: 1594624654468.3438,
+                              //   mtimeMs: 1594624654468.3438,
+                              //   ctimeMs: 1594624971566.2764,
+                              //   birthtimeMs: 1594624654468.3438,
+                              //   atime: 2020-07-13T07:17:34.468Z,
+                              //   mtime: 2020-07-13T07:17:34.468Z,
+                              //   ctime: 2020-07-13T07:22:51.566Z,
+                              //   birthtime: 2020-07-13T07:17:34.468Z
+                              // }
 
-    const router = express.Router();
-    router.get('/', async (req, res, next) => {
-      res.render('index');
-    });
-    export default router;
-    ```
+// Returns the file modification date and time
+File.getFilemtime('sample.txt');// 1594624654
 
-    **views/index.hbs:**
+// Returns the file extension
+File.getExtension('sample.txt');// 'txt'
 
-    ```html
-    <h3>Welcome, {{session.name}}</h3>
-    <p><a href="/api/signout">Sign out</a></p>
-    ```
+// Find file
+File.find('sample/**/*.txt');
+                              // [
+                              //   'sample/Administrator/Database/Vivian.txt',
+                              //   'sample/Architect/Harley.txt',
+                              //   'sample/Architect/Taylor.txt',
+                              //   'sample/Engineer/Eliza.txt',
+                              //   'sample/Engineer/Nancy.txt',
+                              //   'sample/Engineer/Robin.txt',
+                              //   'sample/Manager/Melinda.txt'
+                              // ]
 
-1. Add a sign-in action.
+// Returns the tmp directory. However, the tmp directory is not created.
+File.getTmpDirectory();// '/tmp'
 
-    **routes/api/signin.js:**
+// Returns the tmp file path. However, tmp file is not created.
+File.getTmpPath();// '/tmp/5tbwc2gskck789pt'
 
-    ```js
-    import express from 'express';
-    import UserSignin from '../../shared/UserSignin';
+// Returns the tmp file path with extension.
+File.getTmpPath('txt');// '/tmp/5tbwc2gskck78srx.txt'
 
-    const router = express.Router();
-    router.post('/', async (req, res, next) => {
-      const userSignin = new UserSignin();
-      const isSuccess  = await userSignin.signin(req, res, next);
-      res.json(isSuccess);
-    });
-    export default router;
-    ```
+// Return whether file
+File.isFile('sample.txt');// true
 
-1. Add a sign-out action.
+// Rename file or directory name
+File.rename('sample.txt', 'new.txt');
+```
 
-    **routes/api/signout.js:**
+### Media
 
-    ```js
-    import express from 'express';
-    import UserSignin from '../../shared/UserSignin';
+General media manipulation utilities.
 
-    const router = express.Router();
-    router.get('/', async (req, res, next) => {
-      const userSignin = new UserSignin();
-      userSignin.signout(req, res, next);
-      res.redirect('/');
-    });
-    export default router;
-    ```
+```js
+import { Media } from 'node-shared-module';
 
-1. You can open "https://{application host name}" in your browser to view the sign page.
+// Write base64 to image
+Media.writeBase64Image('sample.jpg', 'data:image/jpeg;base64,/9j/4AAQSk...');
 
-### URL routing
+// Convert base64 format to blob format
+Media.convertBase64ToBlob('data:image/jpeg;base64,/9j/4AAQSk...');// /9j/4AAQSk...
 
-URL routing is automatic in this application.  
-There is a one-to-one relationship between a URL string and its corresponding router module.
+// Return whether base64 format
+Media.isBase64('data:image/jpeg;base64,/9j/4AAQSk...');// true
 
-For example "routes/users.js" is mapped to "https://{Your application}/users".
+// Returns base64 file information
+Media.statBase64('data:image/jpeg;base64,/9j/4AAQSk...');// { blob: '/9j/4AAQSk...', type: 'jpeg' }
 
-Also, "routes/api/users.js" is mapped to "https://{Your application}/api/users".
+// Returns the dimensions of the image
+Media.getDimensions('sample.jpg');// { width: 960, height: 640 }
 
-### Model class
+// Crop image
+Media.crop('sample.jpg', 'crop.jpg', { left: 480, top: 220, width: 200, height: 200 });
 
-Explains how to connect DB and how to use the model.  
-For information on other model methods, see "[Sequelize | Sequelize ORM](https://sequelize.org/)".
+// Resize to 100px width while keeping the aspect ratio.
+Media.resize('sample.jpg', { width: 100 });
 
-* Add the database connection information to "config/database.js".
+// Resize to 100px height while keeping the aspect ratio.
+Media.resize('sample.jpg', { height: 100 });
 
-    ```js
-    export default {
-      development: {
-        username: 'root',
-        password: null,
-        database: 'sample',
-        host: 'localhost',
-        dialect: 'mariadb',
-        dialectOptions: {
-          useUTC: false,
-          timezone: 'Etc/GMT-9'
-        },
-        timezone: 'Etc/GMT-9',
-        logging: false
-      },
-      ...
-    ```
+// Resize width and height to 100px while maintaining aspect ratio. (Cover)
+Media.resize('sample.jpg', { width: 100, height: 100 });
 
-* Create a user model in “models/UserModel.js”.
+// // Resize width and height to 100px while maintaining aspect ratio. (Contain)
+Media.resize('sample.jpg', { width: 100, height: 100, contain: true });
 
-    ```js
-    import Model from '../shared/Model';
-    import { DataTypes } from 'sequelize';
+// Resize to 100px width while keeping the aspect ratio.
+Media.resize('sample.jpg', { width: 100 });
 
-    export default class extends Model {
-      constructor() {
-        const table = 'user';
-        const attributes = {
-          id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-          },
-          email: DataTypes.STRING,
-          password: DataTypes.STRING,
-          name: DataTypes.STRING,
-          created: DataTypes.DATE,
-          modified: DataTypes.DATE
-        };
-        super(table, attributes);
-      }
-    }
-    ```
-* Access the table using the user model.
+// Resize to 100px height while keeping the aspect ratio.
+Media.resize('sample.jpg', { height: 100 });
 
-    ```js
-    import UserModel from '../models/UserModel';
+// Resize width and height to 100px while maintaining aspect ratio. (Cover)
+Media.resize('sample.jpg', { width: 100, height: 100 });
 
-    // Search user table
-    const userModel = new UserModel();
-    await userModel.findAll({ raw: true });
-    // [
-    //   {
-    //     "id": 1,
-    //     "email": "robin@example.com",
-    //     "password": "password",
-    //     "name": "Robin",
-    //     "created": "2020-06-04T19:26:19.000Z",
-    //     "modified": "2020-06-04T19:26:19.000Z"
-    //   },
-    //   {
-    //     "id": 2,
-    //     "email": "taylor@example.com",
-    //     "password": "password",
-    //     "name": "Taylor",
-    //     "created": "2020-06-04T19:26:19.000Z",
-    //     "modified": "2020-06-04T19:26:19.000Z"
-    //   },
-    //   ...
-    // ]
-    ```
+// // Resize width and height to 100px while maintaining aspect ratio. (Contain)
+Media.resize('sample.jpg', { width: 100, height: 100, contain: true });
 
-### View
+// If you do not want to change the original image file, set output output destination
+Media.resize('sample.jpg', { output: 'resized.jpg', width: 100 });
+```
 
-* Syntax
+### Reflect
 
-    To mark where layout should insert page
+General utility that returns class information.
 
-    ```html
-    {{{body}}}
-    ```
+```js
+import { Reflect } from 'node-shared-module';
 
-    To declare a block placeholder in layout
+class Sample {
+  public static func1 () {}
+  public static func2 () {}
+  private static func3 () {}
+  private static func4 () {}
+  public func5 () {}
+  public func6 () {}
+  private func7 () {}
+  private func8 () {}
+}
 
-    ```html
-    {{{block "pageScripts"}}}
-    ```
+const sample = new Sample();
 
-    To define block content in a page
+// Return class method name
+Reflect.getStaticMethods(Sample);// Set(4) { 'func1', 'func2', 'func3', 'func4' }
 
-    ```html
-    {{#contentFor "pageScripts"}}
-      CONTENT HERE
-    {{/contentFor}}
-    ```
+// Returns the instance method name
+Reflect.getMethods(sample);// Set(5) { 'constructor', 'func5', 'func6', 'func7', 'func8' }
+```
 
-* Layouts
+### Regex
 
-    There are three ways to use a layout, listed in precedence order
+General Regex utilities.
 
-    Declarative within a page. Use handlebars comment
+```js
+import { Regex } from 'node-shared-module';
 
-    ```html
-    {{!< default}}
-    ```
+// Escapes the `RegExp` special characters "^", "$", "\", ".", "*", "+", "?", "(", ")", "[", "]", "{", "}", "|" in `string`.
+Regex.escape('https://example.jp/?tag=TypeScript');// 'https://example\\.jp/\\?tag=TypeScript'
 
-    File views/layout/default.hbs
+// When using your own wildcard, you can follow the metacharacters with the regular expression wildcard.
+var strRegex = Regex.escape('https://example.jp?tag=*', { '*': '.*?' });
+var regex = new RegExp(strRegex);
+regex.test('https://example.jp?tag=TypeScript');// true
+regex.test('https://example.jp?tag=JavaScript');// true
+regex.test('https://example.jp?name=JavaScript');// false
+```
 
-    ```html
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      {{{block "pageStyles"}}}
-    </head>
-    <body>
+## Browser
 
-      {{{body}}}
+Browser information detection utility.
 
-      {{{block "pageScripts"}}}
-    </body>
-    </html>
-    ```
+```js
+import { Browser } from 'node-shared-module';
 
-    File views/index.hbs
+// Detect browser information from UA.
+Browser.parse('Mozilla/5.0 (Linux; Android 9; Lenovo TB-8505F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.101 Mobile Safari/537.36');
+    // {
+    //   platform: 'mobile',
+    //   osName: 'Android',
+    //   osVersion: 9,
+    //   browserName: 'Chrome'
+    // }
+Browser.parse('Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148');
+    // {
+    //   platform: 'tablet',
+    //   osName: 'iOS',
+    //   osVersion: 12.2,
+    //   browserName: 'Safari'
+    // }
+Browser.parse('Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; YTB730; GTB7.3; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.5.30729; .NET CLR 3.0.30618; .NET4.0C)');
+    // {
+    //   platform: 'desktop',
+    //   osName: 'Windows NT',
+    //   osVersion: 6,
+    //   browserName: 'Internet Explorer'
+    // }
+```
 
-    ```html
-    {{!< default}}
+## Examples
 
-    {{#contentFor 'pageStyles'}}
-    <link rel="stylesheet" type="text/css" href="/style.css">
-    {{/contentFor}}
-
-    {{#contentFor 'pageScripts'}}
-    <script src="script.js"></script>
-    {{/contentFor}}
-
-    <h1>{{title}}</h1>
-    ```
-
-    To run example project
+There are some examples in "./examples/main.ts" in this package.Here is the first one to get you started.
 
 ## License
 
