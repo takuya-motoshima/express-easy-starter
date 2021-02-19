@@ -10,7 +10,8 @@
   "author": "Takuya Motoshima <developer.takuyamotoshima@gmail.com> (https://twitter.com/TakuyaMotoshima)",
   "license": "MIT",
   "dependencies": {
+    "bootstrap": "^4.5.2",
     "jquery": "^3.5.1",
-    "parsleyjs": "^2.9.2"
+    "popper.js": "^1.16.1"
   }
 }

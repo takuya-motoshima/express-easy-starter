@@ -1,16 +1,21 @@
 export default {
   env: '.env',
   CORS: true,
+  useView: true,
   maxRequestBodySize: '100mb',
-  defaultController: '/index',
-  userSignin: {
+  defaultController: '/welcome',
+  authentication: {
     enabled: true,
     usernameField: 'email',
     passwordField: 'password',
-    successRedirect: '/',
-    failureRedirect: '/signin',
-    unauthenticatedUrl: [
-      '/test/is-db-connect'
+    loginSuccessfulUrl: '/',
+    loginFailureUrl: '/login',
+    exclude: [
+      '/test',
+      '/test/is-db-connect',
+      '/test/foo',
+      '/test/bar',
+      '/test/error'
     ]
   }
 }

@@ -4,68 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{{block "title"}}} | Express Framework Easy Starter</title>
-  <link rel="stylesheet" type="text/css" href="/theme.css">
-  <link rel="stylesheet" type="text/css" href="/leftSidebarLayout.css">
-  <style>
-    .b4t-top-header .b4t-navbar-header .navbar-brand {
-      height: 40px;
-    }
-  </style>
-  {{{block "pageStyles"}}}
+  <link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+  {{{block "style"}}}
 </head>
 <body>
-  <div class="b4t-wrapper">
-
-    <nav class="navbar navbar-expand fixed-top b4t-top-header">
-      <div class="container-fluid">
-        <div class="b4t-navbar-header"><a class="navbar-brand" href="/"></a></div>
-        <div class="page-title"><span>Express Framework Easy Starter</span></div>
-        <div class="b4t-right-navbar">
-          <ul class="nav navbar-nav float-right b4t-user-nav">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false">
-                <i class="mdi mdi-more-vert"></i>
-                <span class="user-name">{{session.name}}</span>
-              </a>
-              <div class="dropdown-menu" role="menu">
-                <div class="user-info">
-                  <div class="user-name">{{session.name}}</div>
-                  <div class="user-position online">Available</div>
-                </div>
-                <a class="dropdown-item" href="/profile"><span class="icon mdi mdi-settings"></span>Profile</a>
-                <a class="dropdown-item" href="/api/signout"><span class="icon mdi mdi-power"></span>Sign out</a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <div class="b4t-left-sidebar">
-      <div class="left-sidebar-wrapper">
-        <a class="left-sidebar-toggle" href="#">{{{block "title"}}}</a>
-        <div class="left-sidebar-spacer">
-          <div class="left-sidebar-scroll">
-            <div class="left-sidebar-content">
-              <ul class="sidebar-elements">
-                <li class="active"><a href="/"><i class="icon mdi mdi-home"></i><span>Welcome</span></a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Sample</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav mr-auto w-100">
+        <li class="nav-item ml-auto"><a class="nav-link" href="/api/user/logout">Sign out</a></li>
+      </ul>
+      <span class="navbar-text">{{session.name}}</span>
     </div>
-
-    <div class="b4t-content">
-      <div class="main-content container-fluid">
-        {{{body}}}
-      </div>
-    </div>
-  </div>
-
-  <script src="/theme.js"></script>
+  </nav>
+  <main class="container-fluid">
+    {{{body}}}
+  </main>
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
-  <script src="/node_modules/parsleyjs/dist/parsley.min.js"></script>
-  {{{block "pageScripts"}}}
+  <script src="/node_modules/popper.js/dist/umd/popper.min.js"></script>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  {{{block "script"}}}
 </body>
 </html>

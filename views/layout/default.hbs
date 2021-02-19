@@ -4,16 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{{block "title"}}} | Express Framework Easy Starter</title>
-  <link rel="stylesheet" type="text/css" href="/theme.css">
-  {{{block "pageStyles"}}}
+  <link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+  {{{block "style"}}}
 </head>
-<body class="{{{block "bodyClass"}}}">
-
+<body>
   {{{body}}}
-
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
-  <script src="/node_modules/parsleyjs/dist/parsley.min.js"></script>
-
-  {{{block "pageScripts"}}}
+  <script src="/node_modules/popper.js/dist/umd/popper.min.js"></script>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  {{{block "script"}}}
 </body>
 </html>

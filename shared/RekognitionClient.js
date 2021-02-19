@@ -1,7 +1,6 @@
 import fs from 'fs';
 import aws from 'aws-sdk';
-import Media from './Media';
-import File from './File';
+import { File, Media } from 'nodejs-shared';
 
 export default class {
 
@@ -120,7 +119,7 @@ export default class {
 
   base64ToBlob(base64) {
     const tmp = File.getTmpPath('.png');
-    Media.writeBase64ToImage(tmp, base64);
+    Media.writeBase64Image(tmp, base64);
     return fs.readFileSync(tmp);
   }
 }

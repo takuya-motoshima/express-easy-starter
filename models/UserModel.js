@@ -1,26 +1,28 @@
 import Model from '../shared/Model';
-import { DataTypes } from 'sequelize';
 
-export default class extends Model {
-  constructor() {
-    const table = 'user';
+export default (class extends Model {
+
+  static get table() {
+    return 'user';
+  }
+
+  static get attributes() {
     const attributes = {
       id: {
-        type: DataTypes.INTEGER,
+        type: super.DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
-      email: DataTypes.STRING,
-      password: DataTypes.STRING,
-      name: DataTypes.STRING,
-      created: DataTypes.DATE,
-      modified: DataTypes.DATE
+      email: super.DataTypes.STRING,
+      password: super.DataTypes.STRING,
+      name: super.DataTypes.STRING,
+      created: super.DataTypes.DATE,
+      modified: super.DataTypes.DATE
     };
-    super(table, attributes);
   }
 
-  async isPasswordCorrect(id, password) {
-    const count = await this.count({ where: { id, password } });
+  static async isPasswordCorrect(id, password) {
+    const count = await super.count({ where: { id, password } });
     return count > 0;
   }
-}
+}).attach();

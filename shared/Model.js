@@ -1,15 +1,21 @@
+import { Sequelize, Model as SequelizeModel, DataTypes } from 'sequelize';
 import database from '../shared/Database';
-import Reflect from '../shared/Reflect';
 
-export default class {
-  constructor(table, attributes) {
-    const Model = database.define(table, attributes, {
+export default class extends SequelizeModel {
+
+  static get DataTypes() {
+    return DataTypes;
+  }
+
+  static attach() {
+    console.log('this.table=', this.table);
+    console.log('this.attributes=', this.attributes);
+    super.init(this.attributes, {
+      modelName: this.table, 
+      sequelize: database,
       freezeTableName: true,
-      timestamps: false
+      timestamps: false,
     });
-    for (let method of Reflect.getStaticMethods(Model)) {
-      if (method.indexOf('_') === 0) continue;
-      this[method] = (...args) => Model[method].apply(Model, args);
-    }
+    return this;
   }
 }
