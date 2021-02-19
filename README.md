@@ -83,8 +83,8 @@ AWS_REKOGNITION_SECRET_KEY=...
 Create a DB to be used in this application.  
 
 ```sql
-mysql -u root -e 'CREATE DATABASE IF NOT EXISTS `sample` DEFAULT CHARACTER SET utf8mb4;';
-mysql -u root -D sample < documents/sample-db.sql; 
+mysql -u root -e 'CREATE DATABASE IF NOT EXISTS `express-easy-starter` DEFAULT CHARACTER SET utf8mb4;';
+mysql -u root -D express-easy-starter < documents/sample-db.sql; 
 ```
 
 The user table is added to the sample DB, and the following records are added to the user table.  

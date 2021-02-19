@@ -2,7 +2,7 @@ export default {
   development: {
     username: 'root',
     password: null,
-    database: 'sample',
+    database: 'express-easy-starter',
     host: 'localhost',
     dialect: 'mariadb',
     dialectOptions: {
@@ -15,7 +15,7 @@ export default {
   test: {
     username: 'root',
     password: null,
-    database: 'sample',
+    database: 'express-easy-starter',
     host: 'localhost',
     dialect: 'mariadb',
     dialectOptions: {
@@ -28,7 +28,7 @@ export default {
   production: {
     username: 'root',
     password: null,
-    database: 'sample',
+    database: 'express-easy-starter',
     host: 'localhost',
     dialect: 'mariadb',
     dialectOptions: {

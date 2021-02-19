@@ -1,16 +1,15 @@
 {
   "name": "express-easy-starter",
   "version": "0.0.7",
-  "_moduleAliases": {
-    "~": "."
-  },
-  "//type": "module",
+  "description": "",
+  "main": "index.js",
   "scripts": {
     "start": "env TZ='Asia/Tokyo' pm2 start ecosystem.config.js",
     "restart": "env TZ='Asia/Tokyo' pm2 restart ecosystem.config.js",
-    "stop": "pm2 stop ecosystem.config.js",
-    "build": "webpack",
-    "watch": "webpack --watch "
+    "stop": "pm2 stop ecosystem.config.js"
+  },
+  "_moduleAliases": {
+    "~": "."
   },
   "repository": {
     "type": "git",
@@ -64,7 +63,7 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
-    "sequelize": "^5.21.11",
+    "sequelize": "^6.5.0",
     "uniqid": "^5.2.0"
   },
   "devDependencies": {

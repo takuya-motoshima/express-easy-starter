@@ -1,27 +1,34 @@
+const PORT = 3001;
+
 module.exports = {
   apps : [
     {
-      name: 'express-easy-starter',
+      name: 'app',
       script: 'bin/www.js',
       node_args: '-r esm',
       exec_mode: 'cluster_mode',
       watch: '.',
       watch_delay: 1000,
-      ignore_watch : ['node_modules', 'public'],
+      ignore_watch : [
+        'node_modules',
+        'public',
+        '.git'
+      ],
       watch_options: {
-        followSymlinks: false
+        followSymlinks: false,
+        usePolling: true
       },
       env: {
         NODE_ENV: 'development',
-        PORT: 3001
+        PORT
       },
       env_test: {
         NODE_ENV: 'test',
-        PORT: 3001
+        PORT
       },
       env_production: {
         NODE_ENV: 'production',
-        PORT: 3001
+        PORT
       }
     }
   ]

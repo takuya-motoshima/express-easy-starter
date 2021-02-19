@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS `sample` DEFAULT CHARACTER SET utf8mb4;
+CREATE DATABASE IF NOT EXISTS `express-easy-starter` DEFAULT CHARACTER SET utf8mb4;
 
-USE `sample`;
+USE `express-easy-starter`;
 
 CREATE TABLE `user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,

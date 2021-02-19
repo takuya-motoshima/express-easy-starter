@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.9] - 2021-2-19
+
+* Extend model base class (shared / Model).
+
 ## [0.0.8] - 2021-2-19
 
 * Refactor the model, router and app.js.

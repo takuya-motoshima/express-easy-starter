@@ -1,6 +1,6 @@
 export default {
   env: '.env',
-  CORS: true,
+  cors: true,
   useView: true,
   maxRequestBodySize: '100mb',
   defaultController: '/welcome',

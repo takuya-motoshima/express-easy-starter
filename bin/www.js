@@ -57,7 +57,7 @@ app.set('port', port);
 const server = http.createServer(app);
 
 // Debugger
-const debug = Debug('express-easy-starter:server');
+const debug = Debug('app');
 
 // Listen on provided port, on all network interfaces.
 server.listen(port);

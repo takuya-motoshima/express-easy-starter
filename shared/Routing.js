@@ -6,15 +6,14 @@ export default class {
   /**
    * Generate URL routing from controller class metadata
    */
-  static attach(app, routePath) {
-    const paths = File.find(`${routePath}/**/*.js`);
-    console.log('paths=', paths);
-    for (let path of paths) {
-      const { default: router } = require(path);
-      const matches = path.match(/\/routes(?:(\/..*))?\/(..*)\.js/);
+  static attach(app, routerDir) {
+    const routerFiles = File.find(`${routerDir}/**/*.js`);
+    for (let routerFile of routerFiles) {
+      const { default: router } = require(routerFile);
+      const matches = routerFile.match(/\/routes(?:(\/..*))?\/(..*)\.js/);
       if (!matches) continue;
-      const [ _, directory, file ] = matches;
-      const url = directory ? `${directory}/${file.toLowerCase()}` : `/${file.toLowerCase()}`;
+      const [ _, dir, file ] = matches;
+      const url = dir ? `${dir}/${file.toLowerCase()}` : `/${file.toLowerCase()}`;
       app.use(url === config.defaultController ? '/' : url, router);
     }
   }
