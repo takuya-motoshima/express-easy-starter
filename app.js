@@ -66,6 +66,11 @@ class App {
     if (!config.useView) return;
     const hbs = require('express-hbs');
     const viewPath = `${__dirname}/views`;
+
+    // Added helper function to template engine.
+    hbs.registerHelper('json', (object, replacer=null, space=null) => JSON.stringify(object, replacer, space));
+
+    // Apply template engine to your app.
     this.app.engine('hbs', hbs.express4({
       partialsDir: `${viewPath}/partials`,
       layoutsDir: `${viewPath}/layout`,

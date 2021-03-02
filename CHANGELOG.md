@@ -1,8 +1,12 @@
 # Changelog
 
+## [0.0.10] - 2021-3-2
+
+* Added helper functions to handlebars template engine.
+
 ## [0.0.9] - 2021-2-19
 
-* Extend model base class (shared / Model).
+* Extend model base class (shared/Model).
 
 ## [0.0.8] - 2021-2-19
 

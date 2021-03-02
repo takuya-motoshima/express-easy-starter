@@ -108,75 +108,9 @@ cd /tmp/foo;
 npm start;
 ```
 
-View the website at: https://\<Your application host name\>.  
+View the website at: https://\<Your host name\>.  
 
 ## Usage
-
-### User authentication.
-
-Features of user login and logout.  
-
-This application uses Passport to authenticate users.  
-
-To use user authentication, add the following settings to "config/config.js".
-
-config/config.js:
-
-```js
-authentication: {
-    enabled: true,
-    usernameField: 'email',
-    passwordField: 'password',
-    loginSuccessfulUrl: '/',
-    loginFailureUrl: '/login',
-    exclude: [
-      '/signup'
-    ]
-}
-```
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>enabled</td>
-      <td>Set to true to use user authentication.</td>
-    </tr>
-    <tr>
-      <td>usernameField</td>
-      <td>Login ID column name of the user table.</td>
-    </tr>
-    <tr>
-      <td>passwordField</td>
-      <td>Password column name of the user table.</td>
-    </tr>
-    <tr>
-      <td>loginSuccessfulUrl</td>
-      <td>URL of the page to display after login</td>
-    </tr>
-    <tr>
-      <td>loginFailureUrl</td>
-      <td>The URL of the page to display when logout. This is usually the login page.</td>
-    </tr>
-    <tr>
-      <td>exclude</td>
-      <td>Set the URL that can be accessed without user authentication.</td>
-    </tr>
-  </tbody>
-</table>
-
-
-### Login page and page after successful login.
-
-See [routes/login.js](routes/login.js) and [views/login.hbs](views/login.hbs) for the login page.  
-
-See [routes/welcome.js](routes/welcome.js) and [views/welcome.hbs](views/welcome.hbs) for pages after successful login.  
-
 
 ### About routing.
 
@@ -267,6 +201,106 @@ For example, to return "views / login.hbs" to the browser.
 ```js
 res.render('login');
 ```
+
+The following helper functions have been added specifically for this application.  
+
+<table>
+  <thead>
+    <tr>
+      <th>Syntax</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        {{{json value[, replacer[, space]]}}}<br>
+        <table>
+          <tbody>
+            <tr>
+              <th>value</th>
+              <td>The value to convert to a JSON string.</td>
+            </tr>
+            <tr>
+              <th>replacer Optional</th>
+              <td>A function that alters the behavior of the stringification process, or an array of String and Number that serve as an allowlist for selecting/filtering the properties of the value object to be included in the JSON string.<br>If this value is null or not provided, all properties of the object are included in the resulting JSON string.</td>
+            </tr>
+            <tr>
+              <th>space Optional</th>
+              <td>A String or Number object that's used to insert white space into the output JSON string for readability purposes.<br>If this is a Number, it indicates the number of space characters to use as white space; this number is capped at 10 (if it is greater, the value is just 10).<br>Values less than 1 indicate that no space should be used.<br>If this is a String, the string (or the first 10 characters of the string, if it's longer than that) is used as white space. If this parameter is not provided (or is null), no white space is use.</td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+      <td>Converts a JavaScript object or value to a JSON string.</td>
+    </tr>
+  </tbody>
+</table>
+<table>
+
+### User authentication.
+
+Features of user login and logout.  
+
+This application uses Passport to authenticate users.  
+
+To use user authentication, add the following settings to "config/config.js".
+
+config/config.js:
+
+```js
+authentication: {
+    enabled: true,
+    usernameField: 'email',
+    passwordField: 'password',
+    loginSuccessfulUrl: '/',
+    loginFailureUrl: '/login',
+    exclude: [
+      '/signup'
+    ]
+}
+```
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>enabled</td>
+      <td>Set to true to use user authentication.</td>
+    </tr>
+    <tr>
+      <td>usernameField</td>
+      <td>Login ID column name of the user table.</td>
+    </tr>
+    <tr>
+      <td>passwordField</td>
+      <td>Password column name of the user table.</td>
+    </tr>
+    <tr>
+      <td>loginSuccessfulUrl</td>
+      <td>URL of the page to display after login</td>
+    </tr>
+    <tr>
+      <td>loginFailureUrl</td>
+      <td>The URL of the page to display when logout. This is usually the login page.</td>
+    </tr>
+    <tr>
+      <td>exclude</td>
+      <td>Set the URL that can be accessed without user authentication.</td>
+    </tr>
+  </tbody>
+</table>
+
+Login page and page after successful login.  
+
+See [routes/login.js](routes/login.js) and [views/login.hbs](views/login.hbs) for the login page.  
+
+See [routes/welcome.js](routes/welcome.js) and [views/welcome.hbs](views/welcome.hbs) for pages after successful login.  
 
 ## License
 
