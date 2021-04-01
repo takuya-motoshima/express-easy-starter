@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.12] - 2021-4-1
+
+* Refactor "app.js".
+
 ## [0.0.11] - 2021-3-2
 
 * Added helper functions to handlebars template engine.
