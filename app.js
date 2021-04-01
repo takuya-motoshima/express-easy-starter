@@ -11,6 +11,7 @@ import Authenticator from './shared/Authenticator';
 // import Handlebars from 'handlebars';
 // TODO: If you import morgan here, "GMT morgan deprecated" will occur, so morgan is used by require.
 // import morgan from 'morgan';
+import * as hbsHelpers from './shared/handlebarsHelpers';
 
 /**
  * Set environment variables.
@@ -32,7 +33,8 @@ function setTemplateEngine(app) {
   const viewPath = `${__dirname}/views`;
 
   // Added helper function to template engine.
-  hbs.registerHelper('json', (object, replacer=null, space=null) => JSON.stringify(object, replacer, space));
+  hbs.registerHelper('json', hbsHelpers.json);
+  hbs.registerHelper('replace', hbsHelpers.replace);
 
   // Apply template engine to your app.
   app.engine('hbs', hbs.express4({
