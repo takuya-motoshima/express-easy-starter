@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.13] - 2021-4-2
+
+* Added a helper function to handlebars to add the file modification date and time as a parameter to the Assets file read by HTML.
+
+    ```html
+    <link rel="stylesheet" type="text/css" href="{{cache_busting '/assets/style.css' '//example.com'}}">
+    <script src="{{cache_busting '/assets/script.js' '//example.com'}}"></script>
+
+    The result is like this.
+    <link rel="stylesheet" type="text/css" href="//example.com/assets/style.css?1617261798701">
+    <link rel="stylesheet" type="text/css" href="//example.com/assets/script.js?1617261798701">
+    ```
+
+
 ## [0.0.12] - 2021-4-1
 
 * Refactor "app.js".

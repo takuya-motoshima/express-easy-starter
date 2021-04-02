@@ -8,7 +8,7 @@ module.exports = {
       node_args: '-r esm',
       exec_mode: 'cluster_mode',
       watch: '.',
-      watch_delay: 1000,
+      watch_delay: 3000,
       ignore_watch : [
         'node_modules',
         'public',

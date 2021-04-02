@@ -35,6 +35,7 @@ function setTemplateEngine(app) {
   // Added helper function to template engine.
   hbs.registerHelper('json', hbsHelpers.json);
   hbs.registerHelper('replace', hbsHelpers.replace);
+  hbs.registerHelper('cache_busting', hbsHelpers.cache_busting);
 
   // Apply template engine to your app.
   app.engine('hbs', hbs.express4({
