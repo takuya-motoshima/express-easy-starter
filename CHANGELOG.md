@@ -4,16 +4,6 @@
 
 * Added a helper function to handlebars to add the file modification date and time as a parameter to the Assets file read by HTML.
 
-    ```html
-    <link rel="stylesheet" type="text/css" href="{{cache_busting '/assets/style.css' '//example.com'}}">
-    <script src="{{cache_busting '/assets/script.js' '//example.com'}}"></script>
-
-    The result is like this.
-    <link rel="stylesheet" type="text/css" href="//example.com/assets/style.css?1617261798701">
-    <link rel="stylesheet" type="text/css" href="//example.com/assets/script.js?1617261798701">
-    ```
-
-
 ## [0.0.12] - 2021-4-1
 
 * Refactor "app.js".
@@ -33,53 +23,13 @@
 ## [0.0.7] - 2020-6-18
 
 * Added a method to set a URL that can be accessed without authentication for user authentication.
-
-    URLs that do not require authentication, such as sign-up pages, can be set to "authentication.exclude".
-
-    **config/config.js:**
-
-    ```js
-    authentication: {
-      enabled: true,
-      usernameField: 'email',
-      passwordField: 'password',
-      loginSuccessfulUrl: '/',
-      loginFailureUrl: '/signin',
-      exclude: [
-        '/signup'
-      ]
-    }
-    ```
-
 * Add DB connection judgment method to DB class (shared/Database).
-
-    ```js
-    import Database from '../shared/Database';
-
-    const isConnect = await Database.isConnect();
-    ```
 
 ## [0.0.6] - 2020-6-7
 
 * Added features for user sign-in and sign-out.
-
 * Added information about environment variables (.env) to "Getting Started".
-
 * Fixed a typo in the usage of View.
-
-    File views/index.hbs:
-
-    ```html
-    <!-- After: -->
-    {{!< default}}
-    ...
-    {{#contentFor 'script'}}<script src="script.js"></script>{{/contentFor}}
-
-    <!-- Before: -->
-    {{!< layout}}
-    ...
-    {{#contentFor 'style'}}<script src="script.js"></script>{{/contentFor}}
-    ```
 
 ## [0.0.5] - 2020-6-5
 
@@ -88,35 +38,6 @@
 ## [0.0.4] - 2020-6-5
 
 * It is now possible to define multiple section blocks in a subview that inherits layoutView.
-
-    File views/layout/default.hbs
-
-    ```html
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      {{{block "style"}}}
-    </head>
-    <body>
-
-      {{{body}}}
-
-      {{{block "script"}}}
-    </body>
-    </html>
-    ```
-
-    File views/index.hbs
-
-    ```html
-    {{!< default}}
-    {{#contentFor 'style'}}<link rel="stylesheet" href="/style.css">{{/contentFor}}
-    {{#contentFor 'script'}}<script src="script.js"></script>{{/contentFor}}
-    <h1>{{title}}</h1>
-    ```
-
 * Add Web pack to public
 
 ## [0.0.2] - 2020-6-5

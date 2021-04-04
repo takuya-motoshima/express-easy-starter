@@ -1,15 +1,15 @@
 export default {
-  env: '.env',
-  cors: true,
-  useView: true,
-  maxRequestBodySize: '100mb',
+  envPath: '.env',
+  enableCors: true,
+  enableView: true,
+  maxBodySize: '100mb',
   defaultController: '/welcome',
-  authentication: {
+  userAuthentication: {
     enabled: true,
-    usernameField: 'email',
-    passwordField: 'password',
-    loginSuccessfulUrl: '/',
-    loginFailureUrl: '/login',
+    username: 'email',
+    password: 'password',
+    successRedirect: '/',
+    failureRedirect: '/login',
     exclude: [
       '/test',
       '/test/is-db-connect',
@@ -17,5 +17,14 @@ export default {
       '/test/bar',
       '/test/error'
     ]
-  }
+  },
+  /**
+   * Functions that override baseUrl
+   * Extend the baseUrl obtained by app.js.
+   * The default for baseUrl is referrer origin (eg https://example.com).
+   * 
+   * @example
+   * overrideBaseUrl: (baseUrl: string): string => `${baseUrl}/myapp`
+   */
+  overrideBaseUrl: (baseUrl) => baseUrl
 }

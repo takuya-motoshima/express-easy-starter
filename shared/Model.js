@@ -1,6 +1,9 @@
 import { Sequelize, Model as SequelizeModel, DataTypes, transaction } from 'sequelize';
 import database from '../shared/Database';
 
+/**
+ * Model base class.
+ */
 export default class Model extends SequelizeModel {
 
   /**
@@ -72,9 +75,6 @@ export default class Model extends SequelizeModel {
    * @return {Promise<Object>}
    */
   static async findById(id) {
-    return super.findOne({
-      where: { id },
-      raw: true
-    });
+    return super.findOne({where: {id}, raw: true});
   }
 }

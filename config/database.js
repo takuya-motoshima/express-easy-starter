@@ -1,3 +1,6 @@
+/**
+ * DB option.
+ */
 export default {
   development: {
     username: 'root',
