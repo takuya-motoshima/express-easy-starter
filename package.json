@@ -1,7 +1,7 @@
 {
   "name": "express-easy-starter",
   "version": "0.0.14",
-  "description": "",
+  "description": "This is the skeleton used to get you started with the latest Node.js Express framework the easiest.",
   "main": "index.js",
   "scripts": {
     "start": "env TZ='Asia/Tokyo' pm2 start ecosystem.config.js",

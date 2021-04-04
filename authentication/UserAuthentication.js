@@ -2,7 +2,7 @@ import express from 'express';
 import passport from 'passport';
 import {Strategy as LocalStrategy} from 'passport-local';
 import session from 'express-session';
-import Model from '../shared/Model';
+import Model from '../database/Model';
 
 /**
  * Incorporate user authentication into your application.
@@ -27,9 +27,9 @@ export default class {
     // Use passport-local to set up local authentication with username and password.
     passport.use(new LocalStrategy({
       usernameField: options.username,
-       passwordField: options.password,
-       session: true
-     }, async (username, password, done) => {
+      passwordField: options.password,
+      session: true
+    }, async (username, password, done) => {
       const user = await options.model.findOne({where: {[options.username]: username, [options.password]: password}, raw: true});
       done(null, user||false);
     }));

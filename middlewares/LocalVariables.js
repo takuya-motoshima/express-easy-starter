@@ -13,9 +13,12 @@ export default class {
    */
   static mount(app, options) {
     // Initialize options.
-    options = Object.assign({override: undefined}, options);
+    options = Object.assign({
+      override: undefined
+    }, options);
+
+    // Generate baseUrl for this application based on request header.
     app.use((req, res, next) => {
-      // Generate baseUrl based on request header.
       let baseUrl;
       if (req.headers.referer)
         baseUrl = new URL(req.headers.referer).origin;

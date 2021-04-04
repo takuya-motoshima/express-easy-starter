@@ -1,26 +1,22 @@
-import { Sequelize, Model as SequelizeModel, DataTypes, transaction } from 'sequelize';
-import database from '../shared/Database';
+import sequelize from 'sequelize';
+import database from '../database/Database';
 
 /**
  * Model base class.
  */
-export default class Model extends SequelizeModel {
+export default class Model extends sequelize.Model {
 
   /**
-   * Returns the data type of the column.
-   * 
-   * @see https://sequelize.org/v5/manual/data-types.html
+   * Column type.
    */
-  static get DataTypes() {
-    return DataTypes;
+  static get types() {
+    return sequelize.DataTypes;
   }
 
   /**
-   * Attach a model to your application to make it available.
-   * 
-   * @return {Model}
+   * Mount on application.
    */
-  static attach() {
+  static mount() {
     super.init(this.attributes, {
       modelName: this.table, 
       sequelize: database,
@@ -33,9 +29,7 @@ export default class Model extends SequelizeModel {
 
   /**
    * Define table associations.
-   * 
    * @see https://sequelize.org/master/manual/assocs.html
-   * @return {void}
    */
   static association() {
     // Define association in subclass
@@ -60,9 +54,7 @@ export default class Model extends SequelizeModel {
    *   // We rollback the transaction.
    *   await t.rollback();
    * }
-   *
    * @see https://sequelize.org/master/manual/transactions.html
-   * @return {Promise<Sequelize.Transaction>}
    */
   static async begin() {
     return database.transaction();
@@ -70,9 +62,6 @@ export default class Model extends SequelizeModel {
 
   /**
    * Returns data that matches the ID.
-   * 
-   * @param  {number}          id
-   * @return {Promise<Object>}
    */
   static async findById(id) {
     return super.findOne({where: {id}, raw: true});

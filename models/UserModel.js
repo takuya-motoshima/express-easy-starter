@@ -1,28 +1,32 @@
-import Model from '../shared/Model';
+import sequelize from 'sequelize';
+import Model from '../database/Model';
 
+/**
+ * User model.
+ */
 export default (class extends Model {
-
+  /**
+   * Table name used by the model.
+   */
   static get table() {
     return 'user';
   }
 
+  /**
+   * Table column list.
+   */
   static get attributes() {
-    const attributes = {
+    return {
       id: {
-        type: super.DataTypes.INTEGER,
+        type: Model.types.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
-      email: super.DataTypes.STRING,
-      password: super.DataTypes.STRING,
-      name: super.DataTypes.STRING,
-      created: super.DataTypes.DATE,
-      modified: super.DataTypes.DATE
+      email: Model.types.STRING,
+      password: Model.types.STRING,
+      name: Model.types.STRING,
+      created: Model.types.DATE,
+      modified: Model.types.DATE
     };
   }
-
-  static async isPasswordCorrect(id, password) {
-    const count = await super.count({ where: { id, password } });
-    return count > 0;
-  }
-}).attach();
+}).mount();

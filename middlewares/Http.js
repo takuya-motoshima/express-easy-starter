@@ -14,7 +14,9 @@ export default class {
    */
   static mount(app, options) {
     // Initialize options.
-    options = Object.assign({maxBodySize: '100kb'}, options);
+    options = Object.assign({
+      maxBodySize: '100kb'
+    }, options);
 
     // Log HTTP request.
     const morgan = require('morgan')

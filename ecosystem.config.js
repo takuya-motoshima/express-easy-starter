@@ -3,7 +3,7 @@ const PORT = 3001;
 module.exports = {
   apps : [
     {
-      name: 'express-easy-starter',
+      name: 'sample',
       script: 'bin/www.js',
       node_args: '-r esm',
       exec_mode: 'cluster_mode',

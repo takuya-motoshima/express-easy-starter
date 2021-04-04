@@ -14,6 +14,5 @@ export default class {
   static mount() {
     // Application root path.
     global.APP_ROOT = process.cwd();
-    // global.APP_ROOT = path.resolve(__dirname);
   }
 }

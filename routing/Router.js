@@ -1,6 +1,5 @@
-import config from '../config/config';
 import createError from 'http-errors';
-import { File } from 'nodejs-shared';
+import {File} from 'nodejs-shared';
 import path from 'path';
 
 /**
@@ -13,17 +12,18 @@ export default class {
   /**
    * Mount on application.
    */
-  static mount(app, routerDir) {
+  static mount(app, options) {
     // Initialize options.
-    options = Object.assign({defaultController: undefined}, options);
+    options = Object.assign({
+      defaultController: undefined
+    }, options);
 
     // Set the URL to route based on the path of the file in the routes directory.
     const routesPath = path.join(process.cwd(), 'routes');
     for (let filepath of File.find(`${routesPath}/**/*.js`)) {
       const {default: router} = require(filepath);
       const matches = filepath.match(/\/routes(?:(\/..*))?\/(..*)\.js/);
-      if (!matches)
-        continue;
+      if (!matches) continue;
       const [_, dir, filename] = matches;
       const url = dir ? `${dir}/${filename.toLowerCase()}` : `/${filename.toLowerCase()}`;
       app.use(url === options.defaultController ? '/' : url, router);
@@ -38,14 +38,14 @@ export default class {
     app.use((err, req, res, next) => {
       // Set locals, only providing error in development.
       if (req.xhr) {
-        res.status(err.status || 500);
-        res.json({ error: err.message });
+        res.status(err.status||500);
+        res.json({error: err.message});
       } else {
         res.locals.message = err.message;
         res.locals.error = req.app.get('env') === 'development' ? err : {};
 
         // Render the error page.
-        res.status(err.status || 500);
+        res.status(err.status||500);
         res.render('error');
       }
     });

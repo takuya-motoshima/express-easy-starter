@@ -12,11 +12,13 @@ export default class {
    */
   static mount(options) {
     // Initialize options.
-    options = Object.assign({path: undefined}, options);
-    if (!options.path) return;
+    options = Object.assign({
+      envPath: undefined
+    }, options);
+    if (!options.envPath) return;
 
     // Set environment variables in process.env.
-    const env = dotenv.parse(fs.readFileSync(options.path))
+    const env = dotenv.parse(fs.readFileSync(options.envPath))
     for (let key in env)
       process.env[key] = env[key]
   }

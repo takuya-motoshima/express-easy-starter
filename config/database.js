@@ -1,44 +1,32 @@
 /**
- * DB option.
+ * DB connection options.
  */
 export default {
   development: {
     username: 'root',
-    password: null,
-    database: 'express-easy-starter',
+    database: 'sample',
     host: 'localhost',
     dialect: 'mariadb',
-    dialectOptions: {
-      useUTC: false,
-      timezone: 'Etc/GMT-9'
-    },
     timezone: 'Etc/GMT-9',
-    logging: false
+    logging: false,
+    dialectOptions: {useUTC: false, timezone: 'Etc/GMT-9'}
   },
   test: {
     username: 'root',
-    password: null,
-    database: 'express-easy-starter',
+    database: 'sample',
     host: 'localhost',
     dialect: 'mariadb',
-    dialectOptions: {
-      useUTC: false,
-      timezone: 'Etc/GMT-9'
-    },
     timezone: 'Etc/GMT-9',
-    logging: false
+    logging: false,
+    dialectOptions: {useUTC: false, timezone: 'Etc/GMT-9'}
   },
   production: {
     username: 'root',
-    password: null,
-    database: 'express-easy-starter',
+    database: 'sample',
     host: 'localhost',
     dialect: 'mariadb',
-    dialectOptions: {
-      useUTC: false,
-      timezone: 'Etc/GMT-9'
-    },
     timezone: 'Etc/GMT-9',
-    logging: false
+    logging: false,
+    dialectOptions: {useUTC: false, timezone: 'Etc/GMT-9'}
   }
 }

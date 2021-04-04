@@ -38,12 +38,16 @@ export default class {
     if (/^data:image\//.test(img)) img = this.base64ToBlob(img);
     else if (File.isFile(img)) img = fs.readFileSync(img).toString();
     const data = await new Promise((resolve, reject) => 
-      this.client.detectFaces({Image: {Bytes: img}, Attributes: ['ALL']}, (error, data) => error ? reject(error) : resolve(data))
+      this.client.detectFaces({
+        Image: {Bytes: img},
+        Attributes: ['ALL']
+      }, (error, data) => error ? reject(error) : resolve(data))
     );
     if (!data.FaceDetails) return [];
     const boundingBoxes = [];
     for (let faceDetail of data.FaceDetails)
-      if (faceDetail.Confidence >= threshold) boundingBoxes.push({BoundingBox: faceDetail.BoundingBox});
+      if (faceDetail.BoundingBox && faceDetail.Confidence && faceDetail.Confidence >= threshold)
+        boundingBoxes.push(faceDetail.BoundingBox);
     return boundingBoxes;
   }
 
@@ -69,11 +73,15 @@ export default class {
     if (/^data:image\//.test(img2)) img2 = this.base64ToBlob(img2);
     else if (File.isFile(img2)) img2 = fs.readFileSync(img2).toString();
     const data = await new Promise((resolve, reject) => 
-      this.client.compareFaces({SourceImage: {Bytes: img1}, TargetImage: {Bytes: img2}, SimilarityThreshold: 0}, (error, data) => error ? reject(error) : resolve(data))
+      this.client.compareFaces({
+        SourceImage: {Bytes: img1},
+        TargetImage: {Bytes: img2},
+        SimilarityThreshold: 0
+      }, (error, data) => error ? reject(error) : resolve(data))
     );
     let similarity = .0;
-    if (data.FaceMatches && data.FaceMatches.length > 0)
-      similarity = Math.round(data.FaceMatches[0].Similarity * 10) /10;
+    if (data.FaceMatches && data.FaceMatches.length > 0 && data.FaceMatches[0].Similarity)
+      similarity = Math.round(data.FaceMatches[0].Similarity * 10) / 10;
     return similarity;
   }
 
@@ -84,7 +92,8 @@ export default class {
     const data = await new Promise((resolve, reject) => 
       this.client.createCollection({CollectionId: collectionId}, (error, data) => error ? reject(error) : resolve(data))
     );
-    if (data.StatusCode !== 200) throw new Error('Collection could not be created');
+    if (data.StatusCode !== 200)
+      throw new Error('Collection could not be created');
     return {id: collectionId, faceModelVersion: data.FaceModelVersion};
   }
 
@@ -106,15 +115,16 @@ export default class {
     const data = await new Promise((resolve, reject) => 
       this.client.deleteCollection({CollectionId: collectionId}, (error, data) => error ? reject(error) : resolve(data))
     );
-    if (data.StatusCode !== 200) throw new Error('Collection could not be delete');
+    if (data.StatusCode !== 200)
+      throw new Error('Collection could not be delete');
   }
 
   /**
    * Converts a base64 string to a Blob string and returns it.
    */
   base64ToBlob(base64) {
-    const tmp = File.getTmpPath('.png');
-    Media.writeBase64Image(tmp, base64);
-    return fs.readFileSync(tmp).toString();
+    const tmpPath = File.getTmpPath('.png');
+    Media.writeBase64Image(tmpPath, base64);
+    return fs.readFileSync(tmpPath).toString();
   }
 }
