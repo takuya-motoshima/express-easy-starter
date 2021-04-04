@@ -3,7 +3,7 @@ const PORT = 3001;
 module.exports = {
   apps : [
     {
-      name: 'app',
+      name: 'express-ts-skeleton',
       script: 'bin/www.js',
       node_args: '-r esm',
       exec_mode: 'cluster_mode',

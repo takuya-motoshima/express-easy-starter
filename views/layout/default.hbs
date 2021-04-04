@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{{block "title"}}} | Express Framework Easy Starter</title>
-  <link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <title>{{{block "title"}}} | Sample</title>
+  <link rel="stylesheet" type="text/css" href="{{baseUrl}}/node_modules/bootstrap/dist/css/bootstrap.min.css">
   {{{block "style"}}}
 </head>
 <body>
   {{{body}}}
-  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
-  <script src="/node_modules/popper.js/dist/umd/popper.min.js"></script>
-  <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="{{baseUrl}}/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="{{baseUrl}}/node_modules/popper.js/dist/umd/popper.min.js"></script>
+  <script src="{{baseUrl}}/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
   {{{block "script"}}}
 </body>
 </html>
