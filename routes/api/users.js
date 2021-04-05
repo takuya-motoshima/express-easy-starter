@@ -29,7 +29,6 @@ router.put('/:id(\\d+)', async (req, res, next) => {
  */
 router.post('/login', async (req, res, next) => {
   try {
-    console.log('>>>>>>>>>>>>>>>>>>>req.body=', req.body);
     const userAuthentication = new UserAuthentication();
     const success  = await userAuthentication.signin(req, res, next);
     res.json(success);
