@@ -3,7 +3,7 @@ import express from 'express';
 const router = express.Router();
 router.get('/', async (req, res, next) => {
   try {
-    res.render('login');
+    res.render('dashboard');
   } catch(e) {
     next(e);
   }

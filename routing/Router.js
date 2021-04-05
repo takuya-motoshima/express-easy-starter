@@ -1,3 +1,4 @@
+import express from 'express';
 import createError from 'http-errors';
 import {File} from 'nodejs-shared';
 import path from 'path';
@@ -26,6 +27,7 @@ export default class {
       if (!matches) continue;
       const [_, dir, filename] = matches;
       const url = dir ? `${dir}/${filename.toLowerCase()}` : `/${filename.toLowerCase()}`;
+      console.debug(`Map ${url}`);
       app.use(url === options.defaultController ? '/' : url, router);
     }
 

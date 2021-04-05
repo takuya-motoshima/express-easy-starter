@@ -3,7 +3,7 @@ export default {
   enableCors: true,
   enableView: true,
   maxBodySize: '100mb',
-  defaultController: '/welcome',
+  defaultController: '/dashboard',
   userAuthentication: {
     enabled: true,
     username: 'email',
@@ -12,10 +12,7 @@ export default {
     failureRedirect: '/login',
     exclude: [
       '/test',
-      '/test/is-db-connect',
-      '/test/foo',
-      '/test/bar',
-      '/test/error'
+      '/api'
     ]
   },
   /**

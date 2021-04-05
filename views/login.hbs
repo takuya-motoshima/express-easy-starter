@@ -1,0 +1,11 @@
+{{!< default}}
+{{#contentFor 'title'}}Login{{/contentFor}}
+{{#contentFor 'style'}}<link rel="stylesheet" type="text/css" href="{{baseUrl}}/assets/login.css">{{/contentFor}}
+{{#contentFor 'script'}}<script src="{{baseUrl}}/assets/login.js"></script>{{/contentFor}}
+<form on-login class="login-form text-center">
+  <img class="mb-4" src="{{baseUrl}}/assets/images/logo.png" width="72">
+  <h1 class="h3 mb-3 font-weight-normal">Please login</h1>
+  <input name="email" type="email" class="form-control" placeholder="Email" required autofocus value="robin@example.com">
+  <input name="password" type="password" class="form-control" placeholder="Password" required value="password">
+  <button class="btn btn-lg btn-primary d-block mt-3 w-100" type="submit">Login</button>
+</form>

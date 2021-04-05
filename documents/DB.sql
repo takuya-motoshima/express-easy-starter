@@ -14,11 +14,11 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `user` (`email`, `password`, `name`) VALUES
-  ('robin@example.com', 'password', 'Robin'),
-  ('taylor@example.com', 'password', 'Taylor'),
-  ('vivian@example.com', 'password', 'Vivian'),
-  ('harry@example.com', 'password', 'Harry'),
-  ('eliza@example.com', 'password', 'Eliza'),
-  ('nancy@example.com', 'password', 'Nancy'),
-  ('melinda@example.com', 'password', 'Melinda'),
-  ('harley@example.com', 'password', 'Harley');
+  ('robin@example.com', 'password', 'password'),
+  ('taylor@example.com', 'password', 'password'),
+  ('vivian@example.com', 'password', 'password'),
+  ('harry@example.com', 'password', 'password'),
+  ('eliza@example.com', 'password', 'password'),
+  ('nancy@example.com', 'password', 'password'),
+  ('melinda@example.com', 'password', 'password'),
+  ('harley@example.com', 'password', 'password');

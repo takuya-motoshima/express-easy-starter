@@ -1,4 +1,4 @@
-const PORT = 3001;
+const PORT = 3000;
 
 module.exports = {
   apps : [
@@ -12,7 +12,8 @@ module.exports = {
       ignore_watch : [
         'node_modules',
         'public',
-        '.git'
+        '.git',
+        'documents'
       ],
       watch_options: {
         followSymlinks: false,
