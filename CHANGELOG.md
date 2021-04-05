@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.16] - 2021-4-5
+
+* Fixed typographical errors in the material.
+
 ## [0.0.15] - 2021-4-5
 
 * Significantly refactored.
