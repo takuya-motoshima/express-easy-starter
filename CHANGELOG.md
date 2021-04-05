@@ -1,8 +1,16 @@
 # Changelog
 
-## [0.0.13] - 2021-4-2
+## [0.0.15] - 2021-4-5
+
+* Significantly refactored.
+
+## [0.0.14] - 2021-4-2
 
 * Added a helper function to handlebars to add the file modification date and time as a parameter to the Assets file read by HTML.
+
+## [0.0.13] - 2021-4-1
+
+* Handlebars helper management module added.
 
 ## [0.0.12] - 2021-4-1
 
