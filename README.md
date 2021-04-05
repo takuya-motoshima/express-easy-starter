@@ -9,6 +9,7 @@ Main features.
 - Template engine is Handlebars
 - ORM is Sequelize
 - The theme of the sample page is bootstrap5
+- Backend face recognition module
 
 ![screencap.jpg](https://raw.githubusercontent.com/takuya-motoshima/express-easy-starter/master/documents/screencap.jpg)
 
