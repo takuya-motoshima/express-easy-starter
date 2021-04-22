@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.18] - 2021-4-22
+
+* Delete debug log.
+
 ## [0.0.17] - 2021-4-8
 
 * Refactor the sample page design.
